@@ -1,0 +1,163 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Diplom"
+        xmlns:Wpf="clr-namespace:Nevron.Chart.Wpf;assembly=Nevron.Chart.Wpf"
+    xmlns:s="http://schemas.abtsoftware.co.uk/scichart" x:Class="Diplom.MainWindow"
+        mc:Ignorable="d"
+        Title="Трехмерная КА-модель диффузии" Height="527" Width="800" WindowState="Maximized">
+
+    <Window.Resources>
+
+        <Style TargetType="{x:Type Button}" x:Key="ImageButtonStyle">
+            <Setter Property="Opacity" Value="0.6"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <ContentPresenter/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Opacity" Value="1" />
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.25" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="true">
+                    <Setter Property="Opacity" Value="0.75" />
+                </Trigger>
+            </Style.Triggers>
+
+
+        </Style>
+
+
+
+        <LinearGradientBrush x:Key="ButtonNormalBackground" EndPoint="0,1" StartPoint="0,0">
+            <GradientStop Color="#F3F3F3" Offset="0"/>
+            <GradientStop Color="#EBEBEB" Offset="0.5"/>
+            <GradientStop Color="#DDDDDD" Offset="0.5"/>
+            <GradientStop Color="#CDCDCD" Offset="1"/>
+        </LinearGradientBrush>
+
+        <SolidColorBrush x:Key="ButtonNormalBorder" Color="#FF707070"/>
+
+        <Style x:Key="ToggleButtonStyle1" TargetType="{x:Type ToggleButton}">
+            <Setter Property="Background" Value="{StaticResource ButtonNormalBackground}"/>
+            <Setter Property="BorderBrush" Value="{StaticResource ButtonNormalBorder}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+            <Setter Property="HorizontalAlignment" Value="Right"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="0"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                        <StackPanel Margin="-1,0,0,0" Orientation="Vertical">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            <Border x:Name="on" Opacity="0.25" Width="30" Height="25" Background="#353538" CornerRadius="10,10,0,0" Margin="0,0,0,0" BorderThickness="1" BorderBrush="#008100">
+                                <TextBlock x:Name="onText" Opacity="0.5" Text="Dark" Foreground="#008100" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <Border x:Name="off" Width="30" Height="25" Background="#f9f9f9" BorderThickness="1" BorderBrush="#4e4eff" CornerRadius="0,0,10,10">
+                                <TextBlock x:Name="offText" Text="Light" Foreground="#4e4eff" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="true">
+                                <Setter TargetName="on" Property="Opacity" Value="0.75"/>
+                                <Setter TargetName="onText" Property="Opacity" Value="0.75"/>
+                                <Setter TargetName="off" Property="Opacity" Value ="0.25"/>
+                                <Setter TargetName="offText" Property="Opacity" Value="0.1"/>
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="False">
+                                <Setter TargetName="off" Property="Opacity" Value="0.75"/>
+                                <Setter TargetName="offText" Property="Opacity" Value="0.75"/>
+                                <Setter TargetName="on" Property="Opacity" Value ="0.25"/>
+                                <Setter TargetName="onText" Property="Opacity" Value="0.1"/>
+                            </Trigger>
+
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="true"/>
+                                    <Condition Property="IsChecked" Value="true"/>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter TargetName="on" Property="Opacity" Value="1"/>
+                                    <Setter TargetName="onText" Property="Opacity" Value="1"/>
+                                    <Setter TargetName="off" Property="Opacity" Value ="0.5"/>
+                                    <Setter TargetName="offText" Property="Opacity" Value="0.7"/>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+
+                            <MultiTrigger>
+                                <MultiTrigger.Conditions>
+                                    <Condition Property="IsMouseOver" Value="true"/>
+                                    <Condition Property="IsChecked" Value="false"/>
+                                </MultiTrigger.Conditions>
+                                <MultiTrigger.Setters>
+                                    <Setter TargetName="off" Property="Opacity" Value="1"/>
+                                    <Setter TargetName="offText" Property="Opacity" Value="1"/>
+                                    <Setter TargetName="on" Property="Opacity" Value ="0.5"/>
+                                    <Setter TargetName="onText" Property="Opacity" Value="0.7"/>
+                                </MultiTrigger.Setters>
+                            </MultiTrigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+    </Window.Resources>
+
+
+    <Grid x:Name="windowGrid" Margin="0,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <Grid x:Name="Grid1" Margin="60,0,0,0" Background="#1C1C1E">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+        </Grid>
+
+        <StackPanel x:Name="stackPanel" HorizontalAlignment="Left" Width="60" Background="#1C1C1E">
+            <Button x:Name="StartButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,20,0,5" Padding="1,1,1,1" Click="StartButton_Click">
+                <Image Source="Images/StartCA.png"/>
+            </Button>
+            <Button x:Name="PauseButton" Style="{StaticResource ImageButtonStyle}" Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="PauseButton_Click" IsEnabled="False" >
+                <Image Source="Images/Pause.png" RenderTransformOrigin="0.367,0.467"/>
+            </Button>
+            <Button x:Name="StopButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" IsEnabled="False" Click="StopButton_Click"  >
+                <Image Source="Images/Stop.png"/>
+            </Button>
+            <Button x:Name="ResetCAButton" Style="{StaticResource ImageButtonStyle}"   Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="ResetCAButton_Click" >
+                <Image Source="Images/Reset.png"/>
+            </Button>
+            <Button x:Name="RemoveCAButton"  Style="{StaticResource ImageButtonStyle}" Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="RemoveCAButton_Click" >
+                <Image Source="Images/Delete.png"/>
+            </Button>
+            <Button x:Name="AddPollutionButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="AddPollutionButton_Click">
+                <Image Source="Images/Add.png"/>
+            </Button>
+            <Button x:Name="SettingsButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="SettingsButton_Click">
+                <Image Source="Images/Settings.png"/>
+            </Button>
+            <Button x:Name="ChartTypButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="ChartTypButton_Click">
+                <Image Source="Images/Graphs.png"/>
+            </Button>
+            <Button x:Name="SaveButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="SaveButton_Click">
+                <Image Source="Images/Save.png" RenderTransformOrigin="0.5,1.1"/>
+            </Button>
+            <Button x:Name="WindButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="WindButton_Click">
+                <Image Source="Images/Wind.png" RenderTransformOrigin="0.5,1.1"/>
+            </Button>
+            <ToggleButton x:Name="StyleButton" Style="{StaticResource ToggleButtonStyle1}" Margin="10,5" Padding="1,1,1,1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="60" IsChecked="True"/>
+        </StackPanel>
+
+    </Grid>
+</Window>

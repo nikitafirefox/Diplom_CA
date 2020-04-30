@@ -1,0 +1,30 @@
+﻿<Window x:Class="Diplom.SettingsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Diplom"
+        mc:Ignorable="d"
+        Title="Настройки КА" Height="280" MinWidth="322" MaxWidth="322" Width="322" MaxHeight="280" MinHeight="280" ResizeMode="NoResize">
+
+
+
+    <Grid x:Name="grid1" Background="White">
+        <Label x:Name="l1" Content="Размер сетки: " HorizontalAlignment="Left" Margin="10,41,0,0" VerticalAlignment="Top" Width="183" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l2" Content="Количество итераций:" HorizontalAlignment="Left" Margin="10,84,0,0" VerticalAlignment="Top" Width="183" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l3" Content="Название КА:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="183" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l4" Content="Радиус осреднения:" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,117,0,0" Width="183" Style="{DynamicResource LabelLight}"/>
+        <Separator x:Name="s1" Height="8" Margin="0,71,0,0" Style="{DynamicResource SeparatorLightStyle}" VerticalAlignment="Top" HorizontalAlignment="Left" Width="316"/>
+        <Separator x:Name="s2" HorizontalAlignment="Left" Style="{DynamicResource SeparatorLightStyle}" Height="10" Margin="0,148,0,0" VerticalAlignment="Top" Width="316"/>
+        <Separator x:Name="s3" HorizontalAlignment="Left" Style="{StaticResource SeparatorLightStyle}" Height="8" Margin="0,200,0,0" VerticalAlignment="Top" Width="316"/>
+        <TextBox x:Name="LengthTextBox" Style="{DynamicResource TextBoxLightStyle}" HorizontalAlignment="Left" Height="26" Margin="198,41,0,0" TextWrapping="Wrap" Text="100" VerticalAlignment="Top" Width="96" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="NameCATextBox" HorizontalAlignment="Left" Style="{DynamicResource TextBoxLightStyle}" Height="26" Margin="198,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="96" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="IterationCountTextBox" Style="{DynamicResource TextBoxLightStyle}" HorizontalAlignment="Left" Height="26" Margin="198,84,0,0" TextWrapping="Wrap" Text="10" VerticalAlignment="Top" Width="96" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="RayTextBox" HorizontalAlignment="Left" Style="{DynamicResource TextBoxLightStyle}" Height="26" Margin="198,117,0,0" TextWrapping="Wrap" Text="5" VerticalAlignment="Top" Width="96" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <CheckBox x:Name="DynamicVisualCheckBox" Style="{DynamicResource CheckBoxLightStyle}" Content="Динамическая визуализация" HorizontalAlignment="Left" Margin="10,158,0,0" VerticalAlignment="Top" Width="284" IsChecked="True"/>
+        <CheckBox x:Name="StopWatchCheckBox" Style="{DynamicResource CheckBoxLightStyle}" Content="Отчет о времени выполнения" HorizontalAlignment="Left" Margin="10,179,0,0" VerticalAlignment="Top" Width="284"/>
+        <Button x:Name="CancelButton" Style="{StaticResource ButtonLightStyle}" Content="Отмена" HorizontalAlignment="Left" Margin="10,213,0,0" VerticalAlignment="Top" Width="84" Click="CancelButton_Click" BorderThickness="1"/>
+        <Button x:Name="SaveButton" Style="{StaticResource ButtonLightStyle}" Content="Сохранить" HorizontalAlignment="Left" Margin="222,213,0,0" VerticalAlignment="Top" Width="84" IsEnabled="False" Click="SaveButton_Click" />
+
+    </Grid>
+</Window>
