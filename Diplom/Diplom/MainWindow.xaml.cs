@@ -37,12 +37,13 @@ using System.Xml;
 
 namespace Diplom
 {
+    public enum Chart {PointChart3D = 0, MeshChart, PointChart2D};
+    
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public enum Chart {PointChart3D = 0, MeshChart, PointChart2D};
 
         private int _iteration = 10;
 
@@ -52,7 +53,7 @@ namespace Diplom
 
         private bool _styleType = true;
 
-        private CA_Model.Axis _selectAxis = CA_Model.Axis.Ox;
+        private Axis _selectAxis = Axis.Ox;
 
         private int _selectIndex = 50;
 
@@ -239,7 +240,8 @@ namespace Diplom
                             {
                                 if (CA[x, y, z])
                                 {
-                                    grath_3D.Append(x, y, z);
+                                    grath_3D.Append(x, y, z, new PointMetadata3D(
+                                        Color.FromArgb(_selectAlpha, _selectColor.R, _selectColor.G, _selectColor.B)));
                                 }
                             }
                         }
@@ -251,8 +253,6 @@ namespace Diplom
                         PointMarker = _selectPointMarker
 
                     };
-
-                    scatterSeries3D.PointMarker.Fill = Color.FromArgb(_selectAlpha, _selectColor.R, _selectColor.G, _selectColor.B);
 
                     SciChart3D.RenderableSeries.Clear();
 
@@ -353,21 +353,21 @@ namespace Diplom
                     string titel3D_2 = "";
 
                     switch (_selectAxis) {
-                            case (int)CA_Model.Axis.Ox:
-                                titel3D_1 = "Y";
-                                titel3D_2 = "Z";
+                        case Axis.Ox:
+                            titel3D_1 = "Y";
+                            titel3D_2 = "Z";
                             break;
 
-                        case CA_Model.Axis.Oy:
-                                titel3D_1 = "X";
-                                titel3D_2 = "Z";
+                        case Axis.Oy:
+                            titel3D_1 = "X";
+                            titel3D_2 = "Z";
                             break;
 
 
-                        case CA_Model.Axis.Oz:
+                        case Axis.Oz:
                             titel3D_1 = "X";
                             titel3D_2 = "Y";
-                        break;
+                            break;
 
                     }
 
@@ -382,18 +382,18 @@ namespace Diplom
 
                     switch (_selectAxis)
                     {
-                        case CA_Model.Axis.Ox:
+                        case Axis.Ox:
                             titel2D_1 = "Y";
                             titel2D_2 = "Z";
                             break;
 
-                        case CA_Model.Axis.Oy:
+                        case Axis.Oy:
                             titel2D_1 = "X";
                             titel2D_2 = "Z";
                             break;
 
 
-                        case CA_Model.Axis.Oz:
+                        case Axis.Oz:
                             titel2D_1 = "X";
                             titel2D_2 = "Y";
                             break;
@@ -654,7 +654,8 @@ namespace Diplom
 
                 CA.AddPollution(pollutionWindow.XStart, pollutionWindow.XEnd, 
                     pollutionWindow.YStart, pollutionWindow.YEnd, 
-                    pollutionWindow.ZStart, pollutionWindow.ZEnd);
+                    pollutionWindow.ZStart, pollutionWindow.ZEnd,
+                    pollutionWindow.Frequency, pollutionWindow.Started);
 
                 Paint();
 

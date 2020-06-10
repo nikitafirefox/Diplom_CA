@@ -47,9 +47,9 @@ namespace Diplom
             }
         }
 
-        private CA_Model.Axis _selectAxis = CA_Model.Axis.Ox;
+        private Axis _selectAxis = Axis.Ox;
 
-        public CA_Model.Axis SelectAxis {
+        public Axis SelectAxis {
             set {
                 _selectAxis = value;
                 AxisMeshComboBox.SelectedIndex = (int)_selectAxis;
@@ -108,20 +108,20 @@ namespace Diplom
             }
         }
 
-        private MainWindow.Chart _selectChart = 0;
+        private Chart _selectChart = 0;
 
-        public MainWindow.Chart SelectChart {
+        public Chart SelectChart {
             set {
                 _selectChart = value;
                 switch (value) {
                     default:
-                    case MainWindow.Chart.PointChart3D:
+                    case Chart.PointChart3D:
                         Point3DRadio.IsChecked = true;
                         break;
-                    case MainWindow.Chart.MeshChart:
+                    case Chart.MeshChart:
                         MeshRadio.IsChecked = true;
                         break;
-                    case MainWindow.Chart.PointChart2D:
+                    case Chart.PointChart2D:
                         Point2DRadio.IsChecked = true;
                         break;
                         
@@ -226,12 +226,12 @@ namespace Diplom
         
         private void Point3DRadio_Checked(object sender, RoutedEventArgs e)
         {
-            _selectChart = MainWindow.Chart.PointChart3D;
+            _selectChart = Chart.PointChart3D;
         }
 
         private void MeshRadio_Checked(object sender, RoutedEventArgs e)
         {
-            _selectChart = MainWindow.Chart.MeshChart;
+            _selectChart = Chart.MeshChart;
         }
 
         private void ColorButton_Click(object sender, RoutedEventArgs e)
@@ -270,7 +270,7 @@ namespace Diplom
             _selectIndex = int.Parse(IndexTextBox.Text);
 
             _selectPoint = PointTypeComboBox.SelectedIndex;
-            _selectAxis = (CA_Model.Axis)AxisMeshComboBox.SelectedIndex;
+            _selectAxis = (Axis)AxisMeshComboBox.SelectedIndex;
             _selectPoint2D = Point2DComboBox.SelectedIndex;
           
             Close();
@@ -280,7 +280,7 @@ namespace Diplom
 
         private void Point2DRadio_Checked(object sender, RoutedEventArgs e)
         {
-            _selectChart = MainWindow.Chart.PointChart2D;
+            _selectChart = Chart.PointChart2D;
         }
     }
 }

@@ -9,46 +9,65 @@ using System.Xml;
 
 namespace  CA
 {
+    #region enums
+
+    public enum Axis { Ox = 0, Oy, Oz }
+
+    public enum ThreadDispatcherType {Auto = 0, Async, Sync }
+
+    #endregion
 
     [Serializable]
     public class CA_Model
     {
-        public enum Axis { Ox = 0, Oy, Oz }
 
-        public enum ThreadDispatcherType {Auto = 0, Async, Sync }
+        #region structs
 
-        protected ThreadDispatcherType _selectThreadDispatcher = ThreadDispatcherType.Auto;
-
-        private double _maxWind = 20;
-
-        protected double _wind = 0;
-
-        public double MaxWind { get { return _maxWind; } }
-
-        public double Angel { get; set; } = 0;
-
-        public double Wind {
-            get { return _wind; }
-            set {
-                if (value < 0)
-                {
-                    _wind = 0;
-                }
-                else if (value > _maxWind)
-                {
-                    _wind = _maxWind;
-                }
-                else {
-                    _wind = value;
-                }
-            }
+        [Serializable]
+        private struct PollutionRayParam
+        {
+            public int index;
+            public Axis axis;
+            public int Start;
+            public int End;
+            public double[,] res;
         }
 
-        protected int _countThread;
+        [Serializable]
+        private struct Pollution
+        {
+            public int xStart;
+            public int xEnd;
+            public int yStart;
+            public int yEnd;
+            public int zStart;
+            public int zEnd;
 
-        public static string GetNameAxis(Axis i) {
+            public int frequency;
+            public bool startPollutin;
 
-            switch (i) {
+        }
+
+        [Serializable]
+        private struct NextParam
+        {
+            public int StartX;
+            public int EndX;
+            public int Start;
+            public int End;
+            public Random randomAxis;
+            public Random randomDirection;
+        }
+
+        #endregion
+
+        #region statics
+
+        public static string GetNameAxis(Axis i)
+        {
+
+            switch (i)
+            {
                 case Axis.Ox:
                     return "Ox";
 
@@ -63,7 +82,54 @@ namespace  CA
             }
         }
 
+        #endregion
+
+        #region variables
+
+        protected ThreadDispatcherType _selectThreadDispatcher = ThreadDispatcherType.Auto;
+
+        protected double _wind = 0;
+
+        protected int _countThread;
+
         private int _length;
+
+        private List<Pollution> _pollutions = new List<Pollution>();
+
+        private double _pAxis = 1.0 / 3.0;
+
+        private double _pDirection = 1.0 / 3.0;
+
+        private Random _randomAxis = new Random();
+
+        private Random _randomDirection = new Random();
+
+        private Random _randomWind = new Random();
+
+        #endregion
+
+        #region properties
+
+        public double MaxWind { get; private set; } = 20;
+
+        public double Angel { get; set; } = 0;
+
+        public double Wind {
+            get { return _wind; }
+            set {
+                if (value < 0)
+                {
+                    _wind = 0;
+                }
+                else if (value > MaxWind)
+                {
+                    _wind = MaxWind;
+                }
+                else {
+                    _wind = value;
+                }
+            }
+        }
 
         public string Name { get; set; } = "New_CA";
 
@@ -73,8 +139,8 @@ namespace  CA
                 _length = value;
                 Iterator = 0;
                 _pollutions.Clear();
-                if (value < _maxWind) {
-                    _maxWind = value / 2;
+                if (value < MaxWind) {
+                    MaxWind = value / 2;
                 }
                 Auto = new bool[Length, Length, Length];
 
@@ -84,12 +150,6 @@ namespace  CA
             } }
 
         public int Iterator { private set; get; }
-
-        private List<Pollution> _pollutions = new List<Pollution>();
-
-        private double _pAxis = 1.0 / 3.0;
-
-        private double _pDirection = 1.0 / 3.0;
 
         public double PAxis {
             get
@@ -117,12 +177,6 @@ namespace  CA
             }
         }
 
-        private Random _randomAxis = new Random();
-
-        private Random _randomDirection = new Random();
-
-        private Random _randomWind = new Random();
-
         public int Ray { set; get; }
 
         private bool[,,] Auto { set; get; }
@@ -132,6 +186,8 @@ namespace  CA
                 return Auto[x, y, z];
             }
         }
+
+        #endregion
 
         public CA_Model() {
 
@@ -163,6 +219,8 @@ namespace  CA
             }
         }
 
+        #region XML
+
         public bool OpenXML(string pathXML)
         {
 
@@ -187,7 +245,7 @@ namespace  CA
                 _pDirection = 1.0 / 3.0;
                 Name = "New_CA";
                 _selectThreadDispatcher = ThreadDispatcherType.Auto;
-                _maxWind = 20;
+                MaxWind = 20;
                 _wind = 0;
                 Angel = 0;
 
@@ -329,7 +387,7 @@ namespace  CA
                 _pDirection = 1.0 / 3.0;
                 Name = "New_CA";
                 _selectThreadDispatcher = ThreadDispatcherType.Auto;
-                _maxWind = 20;
+                MaxWind = 20;
                 _wind = 0;
                 Angel = 0;
 
@@ -380,18 +438,18 @@ namespace  CA
 
             if (double.TryParse(maxWindValue, out p))
             {
-                if (_maxWind > 0)
+                if (MaxWind > 0)
                 {
-                    _maxWind = p < Length ? p : Length / 2;
+                    MaxWind = p < Length ? p : Length / 2;
                 }
                 else {
-                    _maxWind = 0;
+                    MaxWind = 0;
                 }
             }
             else
             {
                 error = true;
-                _maxWind = 20 < Length ? 20 : Length / 2;
+                MaxWind = 20 < Length ? 20 : Length / 2;
             }
 
             if (double.TryParse(windValue, out p))
@@ -437,7 +495,7 @@ namespace  CA
 
             foreach (XmlNode x in xmlNode.ChildNodes)
             {
-                string xString1, xString2, yString1, yString2, zString1, zString2;
+                string xString1, xString2, yString1, yString2, zString1, zString2, freqString, startPollutinString;
 
                 try
                 {
@@ -492,7 +550,26 @@ namespace  CA
                     zString2 = "";
                 }
 
-                int x1, x2, y1, y2, z1, z2;
+                try
+                {
+                    freqString = x.Attributes.GetNamedItem("freq").Value;
+                }
+                catch
+                {
+                    freqString = "";
+                }
+
+                try
+                {
+                    startPollutinString = x.Attributes.GetNamedItem("startPollutin").Value;
+                }
+                catch
+                {
+                    startPollutinString = "";
+                }
+
+                int x1, x2, y1, y2, z1, z2, freq;
+                bool startPollution;
 
                 if (int.TryParse(xString1, out count))
                 {
@@ -602,7 +679,24 @@ namespace  CA
                     }
                 }
 
-                AddPollution(x1, x2, y1, y2, z1, z2);
+                if (int.TryParse(freqString, out count))
+                {
+                    freq = count;
+                }
+                else
+                {
+                    freq = 0;
+                }
+
+                if (bool.TryParse(startPollutinString, out bool b))
+                {
+                    startPollution = b;
+                }
+                else {
+                    startPollution = true;
+                }
+
+                AddPollution(x1, x2, y1, y2, z1, z2, freq, startPollution);
 
             }
 
@@ -662,7 +756,7 @@ namespace  CA
             xroot.AppendChild(element);
 
             element = xmlDocument.CreateElement("maxWind");
-            element.InnerText = _maxWind.ToString();
+            element.InnerText = MaxWind.ToString();
             xroot.AppendChild(element);
 
             element = xmlDocument.CreateElement("wind");
@@ -701,6 +795,8 @@ namespace  CA
                 ePollution.SetAttribute("y2", x.yEnd.ToString());
                 ePollution.SetAttribute("z1", x.zStart.ToString());
                 ePollution.SetAttribute("z2", x.zEnd.ToString());
+                ePollution.SetAttribute("freq", x.frequency.ToString());
+                ePollution.SetAttribute("startPollutin", x.startPollutin.ToString());
                 element.AppendChild(ePollution);
             }
 
@@ -708,7 +804,35 @@ namespace  CA
 
         }
 
-        private void Add(int XStart, int XEnd, int YStart, int YEnd, int ZStart, int ZEnd) {
+        #endregion
+
+        #region AddingPollution
+
+        public void AddPollution(int XStart, int XEnd, int YStart, int YEnd, int ZStart, int ZEnd, 
+            int frequency = 0, bool startPollution = true) {
+
+            _pollutions.Add(new Pollution()
+            {
+                xStart = XStart,
+                xEnd = XEnd,
+                yStart = YStart,
+                yEnd = YEnd,
+                zStart = ZStart,
+                zEnd = ZEnd,
+                frequency = frequency,
+                startPollutin = startPollution,
+            });
+
+            if(startPollution)
+                AddPollution(XStart, XEnd, YStart, YEnd, ZStart, ZEnd);
+
+        }
+
+        private void AddPollution(Pollution pollution) {
+            AddPollution(pollution.xStart, pollution.xEnd, pollution.yStart, pollution.yEnd, pollution.zStart, pollution.zEnd);
+        }
+
+        private void AddPollution(int XStart, int XEnd, int YStart, int YEnd, int ZStart, int ZEnd) {
 
             for (int x = XStart; x <= XEnd; x++)
             {
@@ -725,19 +849,18 @@ namespace  CA
 
         }
 
-        public void AddPollution(int XStart, int XEnd, int YStart, int YEnd, int ZStart, int ZEnd) {
+        #endregion
 
-            _pollutions.Add(new Pollution() { xStart = XStart, xEnd = XEnd, yStart = YStart, yEnd = YEnd, zStart = ZStart, zEnd = ZEnd });
-
-            Add(XStart, XEnd, YStart, YEnd, ZStart, ZEnd);
-
-        }
+        #region NextIteration
 
         public void Next() {
             Next(_selectThreadDispatcher);
         }
 
         public void Next(ThreadDispatcherType dispatcherType) {
+
+            if(Iterator > 0)
+                PollutionEmissionStep();
 
             switch (dispatcherType){
                 case ThreadDispatcherType.Auto:
@@ -759,26 +882,19 @@ namespace  CA
                     break;
             }
 
-        }
+            ResetStep();
+            if (Wind > 0)
+                WindStep();
 
-        [Serializable]
-        private struct NextParam {
-           public int StartX;
-           public int EndX;
-           public int Start;
-           public int End;
-           public Random randomAxis;
-           public Random randomDirection;
+            Iterator++;
+
         }
 
         private void NextAsync() {
+
             NextAsync(true);
             NextAsync(false);
-            ResetStep();
-            if (Wind > 0) {
-                WindStep();
-            }
-            Iterator++;
+
         }
 
         private void NextAsync(bool direction) {
@@ -831,23 +947,31 @@ namespace  CA
             }
 
         }
-
-        private void Step(object obj) {
-            NextParam nextParam = (NextParam)obj;
-            Step(nextParam.StartX, nextParam.EndX,nextParam.Start,nextParam.End,nextParam.randomAxis,nextParam.randomDirection);
-        }
-
+        
         private void NextSync() {
 
             Step(0, _length);
             Step(1, _length - 1);
-            ResetStep();
-            if (Wind > 0)
-            {
-                WindStep();
-            }
-            Iterator++;
 
+        }
+
+        #endregion
+
+        #region Steps
+
+        private void PollutionEmissionStep()
+        {
+            var pollutions = _pollutions.Where(x => x.frequency > 0 && Iterator % x.frequency == 0);
+
+            foreach (var p in pollutions)
+            {
+                AddPollution(p);
+            }
+        }
+
+        private void Step(object obj) {
+            NextParam nextParam = (NextParam)obj;
+            Step(nextParam.StartX, nextParam.EndX,nextParam.Start,nextParam.End,nextParam.randomAxis,nextParam.randomDirection);
         }
 
         private void Step(int start, int end) {
@@ -1047,7 +1171,7 @@ namespace  CA
                         {
 
                             double rand = _randomWind.NextDouble();
-                            if (rand <= (_wind / _maxWind))
+                            if (rand <= (_wind / MaxWind))
                             {
 
                                 WindStep(i, j, y, (int)_wind);
@@ -1123,9 +1247,9 @@ namespace  CA
             }
         }
 
-        public void Remove() {
-            Length = _length;
-        }
+        #endregion
+
+        #region GettingPollution
 
         public double[,] GetPollution(int index, Axis axis) {
             return GetPollution(index, axis, _selectThreadDispatcher);
@@ -1154,6 +1278,22 @@ namespace  CA
                     break;
             }
             return res;
+        }
+
+        public bool GetPointPollution(Axis axis, int selectIndex, int index1, int index2) {
+
+            switch (axis) {
+
+                default:
+                case Axis.Ox:
+                    return Auto[selectIndex, index1, index2];
+                case Axis.Oy:
+                    return Auto[index1, selectIndex, index2];
+                case Axis.Oz:
+                    return Auto[index1, index2, selectIndex];
+
+            }
+
         }
 
         private double[,] GetAsyncPollution(int index, Axis axis) {
@@ -1357,20 +1497,12 @@ namespace  CA
 
         }
 
-        public bool GetPointPollution(Axis axis, int selectIndex, int index1, int index2) {
+        #endregion
 
-            switch (axis) {
+        #region Resets
 
-                default:
-                case Axis.Ox:
-                    return Auto[selectIndex, index1, index2];
-                case Axis.Oy:
-                    return Auto[index1, selectIndex, index2];
-                case Axis.Oz:
-                    return Auto[index1, index2, selectIndex];
-
-            }
-
+        public void Remove() {
+            Length = _length;
         }
 
         public void Reset() {
@@ -1378,27 +1510,11 @@ namespace  CA
             Iterator = 0;
             foreach (var pollution in _pollutions)
             {
-                Add(pollution.xStart, pollution.xEnd, pollution.yStart, pollution.yEnd, pollution.zStart, pollution.zEnd);
+                if(pollution.startPollutin)
+                    AddPollution(pollution);
             }
         }
 
-        [Serializable]
-        private struct PollutionRayParam{
-            public int index;
-            public Axis axis;
-            public int Start;
-            public int End;
-            public double[,] res;
-        }
-
-        [Serializable]
-        private struct Pollution {
-            public int xStart;
-            public int xEnd;
-            public int yStart;
-            public int yEnd;
-            public int zStart;
-            public int zEnd;
-        }
+        #endregion
     }
 }
