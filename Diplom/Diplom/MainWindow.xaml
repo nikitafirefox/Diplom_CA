@@ -126,37 +126,37 @@
         </Grid>
 
         <StackPanel x:Name="stackPanel" HorizontalAlignment="Left" Width="60" Background="#1C1C1E">
-            <Button x:Name="StartButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,20,0,5" Padding="1,1,1,1" Click="StartButton_Click">
+            <Button x:Name="StartButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,20,0,5" Padding="1,1,1,1" Click="StartButton_Click" ToolTip="Пуск">
                 <Image Source="Images/StartCA.png"/>
             </Button>
-            <Button x:Name="PauseButton" Style="{StaticResource ImageButtonStyle}" Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="PauseButton_Click" IsEnabled="False">
+            <Button x:Name="PauseButton" Style="{StaticResource ImageButtonStyle}" Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="PauseButton_Click" IsEnabled="False" ToolTip="Пауза">
                 <Image Source="Images/Pause.png" RenderTransformOrigin="0.367,0.467"/>
             </Button>
-            <Button x:Name="StopButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" IsEnabled="False" Click="StopButton_Click">
+            <Button x:Name="StopButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" IsEnabled="False" Click="StopButton_Click" ToolTip="Остановка">
                 <Image Source="Images/Stop.png"/>
             </Button>
-            <Button x:Name="ResetCAButton" Style="{StaticResource ImageButtonStyle}"   Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="ResetCAButton_Click">
+            <Button x:Name="ResetCAButton" Style="{StaticResource ImageButtonStyle}"   Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="ResetCAButton_Click" ToolTip="Вернуться к начльным условиям">
                 <Image Source="Images/Reset.png"/>
             </Button>
-            <Button x:Name="RemoveCAButton"  Style="{StaticResource ImageButtonStyle}" Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="RemoveCAButton_Click">
+            <Button x:Name="RemoveCAButton"  Style="{StaticResource ImageButtonStyle}" Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="RemoveCAButton_Click" ToolTip="Удалить все объекты">
                 <Image Source="Images/Delete.png"/>
             </Button>
-            <Button x:Name="AddPollutionButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="AddPollutionButton_Click">
+            <Button x:Name="AddPollutionButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="AddPollutionButton_Click" ToolTip="Добавить объект">
                 <Image Source="Images/Add.png"/>
             </Button>
-            <Button x:Name="SettingsButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="SettingsButton_Click">
+            <Button x:Name="SettingsButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="SettingsButton_Click" ToolTip="Общие настройки">
                 <Image Source="Images/Settings.png"/>
             </Button>
-            <Button x:Name="ChartTypButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="ChartTypButton_Click">
+            <Button x:Name="ChartTypButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="ChartTypButton_Click" ToolTip="Настройки графика">
                 <Image Source="Images/Graphs.png"/>
             </Button>
-            <Button x:Name="SaveButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="SaveButton_Click">
+            <Button x:Name="SaveButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="SaveButton_Click" ToolTip="Файлы">
                 <Image Source="Images/Save.png" RenderTransformOrigin="0.5,1.1"/>
             </Button>
-            <Button x:Name="WindButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="WindButton_Click">
+            <Button x:Name="WindButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="WindButton_Click" ToolTip="Настройки ветра">
                 <Image Source="Images/Wind.png" RenderTransformOrigin="0.5,1.1"/>
             </Button>
-            <ToggleButton x:Name="StyleButton" Style="{StaticResource ToggleButtonStyle1}" Margin="10,5" Padding="1,1,1,1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="60" IsChecked="True"/>
+            <ToggleButton x:Name="StyleButton" Style="{StaticResource ToggleButtonStyle1}" Margin="10,5" Padding="1,1,1,1" HorizontalAlignment="Stretch" VerticalAlignment="Center" Height="60" IsChecked="True" ToolTip="Выбор стиля"/>
         </StackPanel>
 
     </Grid>
