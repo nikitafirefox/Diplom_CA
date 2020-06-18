@@ -129,16 +129,16 @@
             <Button x:Name="StartButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,20,0,5" Padding="1,1,1,1" Click="StartButton_Click">
                 <Image Source="Images/StartCA.png"/>
             </Button>
-            <Button x:Name="PauseButton" Style="{StaticResource ImageButtonStyle}" Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="PauseButton_Click" IsEnabled="False" >
+            <Button x:Name="PauseButton" Style="{StaticResource ImageButtonStyle}" Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="PauseButton_Click" IsEnabled="False">
                 <Image Source="Images/Pause.png" RenderTransformOrigin="0.367,0.467"/>
             </Button>
-            <Button x:Name="StopButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" IsEnabled="False" Click="StopButton_Click"  >
+            <Button x:Name="StopButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" IsEnabled="False" Click="StopButton_Click">
                 <Image Source="Images/Stop.png"/>
             </Button>
-            <Button x:Name="ResetCAButton" Style="{StaticResource ImageButtonStyle}"   Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="ResetCAButton_Click" >
+            <Button x:Name="ResetCAButton" Style="{StaticResource ImageButtonStyle}"   Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="ResetCAButton_Click">
                 <Image Source="Images/Reset.png"/>
             </Button>
-            <Button x:Name="RemoveCAButton"  Style="{StaticResource ImageButtonStyle}" Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="RemoveCAButton_Click" >
+            <Button x:Name="RemoveCAButton"  Style="{StaticResource ImageButtonStyle}" Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="RemoveCAButton_Click">
                 <Image Source="Images/Delete.png"/>
             </Button>
             <Button x:Name="AddPollutionButton" Style="{StaticResource ImageButtonStyle}"  Width="30" HorizontalAlignment="Center" Margin="0,5,0,5" Padding="1,1,1,1" Click="AddPollutionButton_Click">
