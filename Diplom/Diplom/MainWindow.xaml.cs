@@ -37,12 +37,13 @@ using System.Xml;
 
 namespace Diplom
 {
+    public enum Chart {PointChart3D = 0, MeshChart, PointChart2D};
+    
     /// <summary>
     /// Логика взаимодействия для MainWindow.xaml
     /// </summary>
     public partial class MainWindow : Window
     {
-        public enum Chart {PointChart3D = 0, MeshChart, PointChart2D};
 
         private int _iteration = 10;
 
@@ -52,13 +53,17 @@ namespace Diplom
 
         private bool _styleType = true;
 
-        private CA_Model.Axis _selectAxis = CA_Model.Axis.Ox;
+        private Axis _selectAxis = Axis.Ox;
 
         private int _selectIndex = 50;
 
         private Color _selectColor = Color.FromRgb(128, 155, 250);
 
+        private Color _selectLetColor = Color.FromRgb(255, 255, 255);
+
         private byte _selectAlpha = 255;
+
+        private byte _selectLetAlpha = 156;
 
         private BasePointMarker3D _selectPointMarker = new CubePointMarker3D()
         {
@@ -229,7 +234,8 @@ namespace Diplom
 
                 case (int)Chart.PointChart3D:
 
-                    var grath_3D = new XyzDataSeries3D<int>();
+                    var grathPollution_3D = new XyzDataSeries3D<int>();
+                    var grathLet_3D = new XyzDataSeries3D<int>();
 
                     for (int x = 0; x < CA.Length; x++)
                     {
@@ -237,26 +243,41 @@ namespace Diplom
                         {
                             for (int z = 0; z < CA.Length; z++)
                             {
-                                if (CA[x, y, z])
+                                if (CA[x, y, z] == ABC.Pollution)
                                 {
-                                    grath_3D.Append(x, y, z);
+                                    grathPollution_3D.Append(x, y, z);
+                                }
+                                else if (CA[x, y, z] == ABC.Let) {
+                                    grathLet_3D.Append(x, y, z);
                                 }
                             }
                         }
                     }
+                    
+                    
 
-                    var scatterSeries3D = new ScatterRenderableSeries3D
+                    var scatterPollutionSeries3D = new ScatterRenderableSeries3D()
                     {
-                        DataSeries = grath_3D,
-                        PointMarker = _selectPointMarker
-
+                        DataSeries = grathPollution_3D,
+                        PointMarker = _selectPointMarker,
                     };
 
-                    scatterSeries3D.PointMarker.Fill = Color.FromArgb(_selectAlpha, _selectColor.R, _selectColor.G, _selectColor.B);
+                    var scatterLetSeries3D = new ScatterRenderableSeries3D()
+                    {
+                        DataSeries = grathLet_3D,
+                        PointMarker = new CubePointMarker3D() {
+                            Size = 3,
+                            Fill = Color.FromArgb(_selectLetAlpha, _selectLetColor.R, _selectLetColor.G, _selectLetColor.B)
+                        },
+                    };
+
+                    scatterPollutionSeries3D.PointMarker.Fill = Color.FromArgb(_selectAlpha, _selectColor.R, _selectColor.G, _selectColor.B);
 
                     SciChart3D.RenderableSeries.Clear();
 
-                    SciChart3D.RenderableSeries.Add(scatterSeries3D);
+                    SciChart3D.RenderableSeries.Add(scatterPollutionSeries3D);
+
+                    SciChart3D.RenderableSeries.Add(scatterLetSeries3D);
 
                     SetName("Клеточный автомат; Итерация =" + CA.Iterator);
 
@@ -302,32 +323,47 @@ namespace Diplom
 
                 case Chart.PointChart2D:
 
-                    var dataGraph_2D = new XyDataSeries<int, int>();
+                    var dataPollutionGraph_2D = new XyDataSeries<int, int>();
+                    var dataLetGraph_2D = new XyDataSeries<int, int>();
 
                     for (int i = 0; i < CA.Length; i++)
                     {
                         for (int j = 0; j < CA.Length; j++)
                         {
-                            if (CA.GetPointPollution(_selectAxis, _selectIndex, i, j)) {
+                            if (CA.GetPoint(_selectAxis, _selectIndex, i, j) == ABC.Pollution)
+                            {
 
-                                dataGraph_2D.Append(i, j);
+                                dataPollutionGraph_2D.Append(i, j);
 
+                            }
+                            else if (CA.GetPoint(_selectAxis, _selectIndex, i, j) == ABC.Let)
+                            {
+                                dataLetGraph_2D.Append(i, j);
                             }
 
                         }
 
                     }
 
-                    var xyScatter = new XyScatterRenderableSeries()
+                    var xyPollutionScatter = new XyScatterRenderableSeries()
                     {
-                        DataSeries = dataGraph_2D,
+                        DataSeries = dataPollutionGraph_2D,
                         PointMarker = _selectPointMarker2D   
                     };
 
-                    xyScatter.PointMarker.Fill = Color.FromArgb(_selectAlpha, _selectColor.R, _selectColor.G, _selectColor.B);
+                    var xyLetScatter = new XyScatterRenderableSeries()
+                    {
+                        DataSeries = dataLetGraph_2D,
+                        PointMarker = new SquarePointMarker() {
+                            Fill = Color.FromArgb(_selectLetAlpha, _selectLetColor.R, _selectLetColor.G, _selectLetColor.B),
+                        }
+                    };
+
+                    xyPollutionScatter.PointMarker.Fill = Color.FromArgb(_selectAlpha, _selectColor.R, _selectColor.G, _selectColor.B);
 
                     SciChart2D.RenderableSeries.Clear();
-                    SciChart2D.RenderableSeries.Add(xyScatter);
+                    SciChart2D.RenderableSeries.Add(xyPollutionScatter);
+                    SciChart2D.RenderableSeries.Add(xyLetScatter);
 
                     SetName("Клеточный автомат; Плоскость " + CA_Model.GetNameAxis(_selectAxis)+"; Слой = " + _selectIndex  + "; Итерация =" + CA.Iterator);
 
@@ -353,21 +389,21 @@ namespace Diplom
                     string titel3D_2 = "";
 
                     switch (_selectAxis) {
-                            case (int)CA_Model.Axis.Ox:
-                                titel3D_1 = "Y";
-                                titel3D_2 = "Z";
+                        case Axis.Ox:
+                            titel3D_1 = "Y";
+                            titel3D_2 = "Z";
                             break;
 
-                        case CA_Model.Axis.Oy:
-                                titel3D_1 = "X";
-                                titel3D_2 = "Z";
+                        case Axis.Oy:
+                            titel3D_1 = "X";
+                            titel3D_2 = "Z";
                             break;
 
 
-                        case CA_Model.Axis.Oz:
+                        case Axis.Oz:
                             titel3D_1 = "X";
                             titel3D_2 = "Y";
-                        break;
+                            break;
 
                     }
 
@@ -382,18 +418,18 @@ namespace Diplom
 
                     switch (_selectAxis)
                     {
-                        case CA_Model.Axis.Ox:
+                        case Axis.Ox:
                             titel2D_1 = "Y";
                             titel2D_2 = "Z";
                             break;
 
-                        case CA_Model.Axis.Oy:
+                        case Axis.Oy:
                             titel2D_1 = "X";
                             titel2D_2 = "Z";
                             break;
 
 
-                        case CA_Model.Axis.Oz:
+                        case Axis.Oz:
                             titel2D_1 = "X";
                             titel2D_2 = "Y";
                             break;
@@ -648,18 +684,25 @@ namespace Diplom
 
         private void AddPollutionButton_Click(object sender, RoutedEventArgs e)
         {
-            AddPollutionWindow pollutionWindow = new AddPollutionWindow(_styleType) { Length = CA.Length };
+            AddWindow addWindow = new AddWindow(_styleType) { Length = CA.Length };
 
-            if (pollutionWindow.ShowDialog() == true) {
+            if (addWindow.ShowDialog() == true) {
 
-                CA.AddPollution(pollutionWindow.XStart, pollutionWindow.XEnd, 
-                    pollutionWindow.YStart, pollutionWindow.YEnd, 
-                    pollutionWindow.ZStart, pollutionWindow.ZEnd);
+
+                if (addWindow.AdditionType == AdditionType.Pollution)
+                    CA.AddPollution(addWindow.XStart, addWindow.XEnd,
+                        addWindow.YStart, addWindow.YEnd,
+                        addWindow.ZStart, addWindow.ZEnd,
+                        addWindow.Frequency, addWindow.Started);
+                else
+                    CA.AddLet(addWindow.XStart, addWindow.XEnd,
+                        addWindow.YStart, addWindow.YEnd,
+                        addWindow.ZStart, addWindow.ZEnd);
 
                 Paint();
 
                 SaveCA();
-
+                
             }
         }
 
@@ -686,12 +729,15 @@ namespace Diplom
                 SelectSize = (int)_selectPointMarker.Size,
                 SelectIndex = _selectIndex,
                 SelectChart = _selectChart,
-                SelectPoint2D = GetIndexPoint2DType(_selectPointMarker2D)
+                SelectPoint2D = GetIndexPoint2DType(_selectPointMarker2D),
+                SelectLetColor = _selectLetColor,
+                SelectLetAlpha = _selectLetAlpha,
             };
 
             if (chartWindow.ShowDialog() == true) {
 
                 _selectAlpha = chartWindow.SelectAlpha;
+                _selectLetAlpha = chartWindow.SelectLetAlpha;
                 if (((_selectChart == Chart.PointChart2D) && (chartWindow.SelectChart < Chart.PointChart2D)) || ((chartWindow.SelectChart == Chart.PointChart2D) && (_selectChart < Chart.PointChart2D)))
                 {
                     _selectChart = chartWindow.SelectChart;
@@ -702,6 +748,7 @@ namespace Diplom
                     _selectChart = chartWindow.SelectChart;
                 }
                 _selectColor = chartWindow.SelectColor;
+                _selectLetColor = chartWindow.SelectLetColor;
                 _selectIndex = chartWindow.SelectIndex;
                 _selectAxis = chartWindow.SelectAxis;
                 _selectPointMarker = GetPoint(chartWindow.SelectPoint, chartWindow.SelectSize);

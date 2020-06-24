@@ -5,44 +5,53 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Diplom"
         mc:Ignorable="d"
-        Title="Настройка графики" Height="390" Width="330" MinWidth="330" MaxWidth="330" MaxHeight="390" MinHeight="390" ResizeMode="NoResize">
+        Title="Настройка графики" Height="550" Width="330" MinWidth="330" MaxWidth="330" MaxHeight="550" MinHeight="550" ResizeMode="NoResize">
 
 
-    
+
     <Grid x:Name="grid1" Margin="0,0,0,-1" Background="White">
-        <RadioButton x:Name="Point2DRadio" Style="{DynamicResource RadioButtonLightStyle}" Content="2D график КА" HorizontalAlignment="Left" Margin="10,60,0,0" VerticalAlignment="Top" Width="219"/>
-        <RadioButton x:Name="Point3DRadio" Style="{DynamicResource RadioButtonLightStyle}" Content="3D график КА" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Height="20" Width="219" IsChecked="True"/>
-        <RadioButton x:Name="MeshRadio" Style="{DynamicResource RadioButtonLightStyle}" Content="Гафик осреднения" HorizontalAlignment="Left" Margin="10,35,0,0" VerticalAlignment="Top" Height="20" Width="219"/>
-        
-        <Separator x:Name="s1" HorizontalAlignment="Left"  Height="9" Margin="1,80,0,0" VerticalAlignment="Top" Width="323" Style="{DynamicResource SeparatorLightStyle}"/>
-        <Separator x:Name="s2" HorizontalAlignment="Left" Style="{DynamicResource SeparatorLightStyle}" Height="9" Margin="1,311,0,0" VerticalAlignment="Top" Width="323"/>
-        
-        <TextBox x:Name="AlphaTextBox" Style="{DynamicResource TextBoxLightStyle}" HorizontalAlignment="Left" Height="26" Margin="134,156,0,0" TextWrapping="Wrap" Text="255" VerticalAlignment="Top" Width="177" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="SizeTextBox" Style="{DynamicResource TextBoxLightStyle}" HorizontalAlignment="Left" Height="26" Margin="134,125,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="177" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
-        <TextBox x:Name="IndexTextBox" Style="{DynamicResource TextBoxLightStyle}" HorizontalAlignment="Left" Height="26" Margin="134,218,0,0" TextWrapping="Wrap" Text="-1" VerticalAlignment="Top" Width="177" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <RadioButton x:Name="Point2DRadio" Style="{DynamicResource RadioButtonLightStyle}" Content="2D график КА" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Width="219"/>
+        <RadioButton x:Name="Point3DRadio" Style="{DynamicResource RadioButtonLightStyle}" Content="3D график КА" HorizontalAlignment="Left" Margin="10,55,0,0" VerticalAlignment="Top" Height="20" Width="219" IsChecked="True"/>
+        <RadioButton x:Name="MeshRadio" Style="{DynamicResource RadioButtonLightStyle}" Content="Гафик осреднения" HorizontalAlignment="Left" Margin="10,80,0,0" VerticalAlignment="Top" Height="20" Width="219"/>
 
-        <Label x:Name="l1" Content="Тип 3D точек:" HorizontalAlignment="Left" Margin="10,94,0,0" VerticalAlignment="Top" Width="119" Style="{DynamicResource LabelLight}"/>
-        <Label x:Name="l2" Content="Альфа канал:" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="119" Style="{DynamicResource LabelLight}"/>
-        <Label x:Name="l3" Content="Цвет точки:" HorizontalAlignment="Left" Margin="10,187,0,0" VerticalAlignment="Top" Width="119" RenderTransformOrigin="0.496,-0.154" Style="{DynamicResource LabelLight}"/>
-        <Label x:Name="l4" Content="Размер 3D точки:  " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,125,0,0" Width="119" Style="{DynamicResource LabelLight}"/>
-        <Label x:Name="l5" Content="Номер слоя:" HorizontalAlignment="Left" Margin="10,218,0,0" VerticalAlignment="Top" Width="119" Style="{DynamicResource LabelLight}"/>
-        <Label x:Name="l6" Content="Плоскость:" HorizontalAlignment="Left" Margin="10,249,0,0" VerticalAlignment="Top" Width="119" Style="{DynamicResource LabelLight}"/>
-        <Label x:Name="l7" Content="Тип 2D точек" HorizontalAlignment="Left" Margin="10,280,0,0" VerticalAlignment="Top" Width="119" Style="{DynamicResource LabelLight}"/>
-        
-        <Button x:Name="ColorButton" Style="{DynamicResource ButtonLightStyle}"  Content="" HorizontalAlignment="Left" Margin="134,187,0,0" VerticalAlignment="Top" Width="177" Height="26" Click="ColorButton_Click"/>
-        <Button x:Name="CancelButton" Style="{DynamicResource ButtonLightStyle}" Content="Отмена" HorizontalAlignment="Left" Margin="10,325,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.307,-0.3" Click="CancelButton_Click"/>
-        <Button x:Name="SaveButton" Style="{DynamicResource ButtonLightStyle}" Content="Применить" HorizontalAlignment="Left" Margin="236,325,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="SaveButton_Click"/>
-        
-        <ComboBox x:Name="AxisMeshComboBox" Style="{DynamicResource ComboBoxLightStyle}" HorizontalAlignment="Left" Margin="134,249,0,0" VerticalAlignment="Top" Width="177" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Gray" IsTextSearchEnabled="False">
+        <Separator x:Name="s1" HorizontalAlignment="Left"  Height="9" Margin="0,125,0,0" VerticalAlignment="Top" Width="324" Style="{DynamicResource SeparatorLightStyle}"/>
+        <Separator x:Name="s2" HorizontalAlignment="Left" Style="{DynamicResource SeparatorLightStyle}" Height="9" Margin="0,356,0,0" VerticalAlignment="Top" Width="324"/>
+        <Separator x:Name="s3" HorizontalAlignment="Left"  Height="9" Margin="0,41,0,0" VerticalAlignment="Top" Width="324" Style="{DynamicResource SeparatorLightStyle}"/>
+        <Separator x:Name="s4" HorizontalAlignment="Left" Style="{DynamicResource SeparatorLightStyle}" Height="9" Margin="0,401,0,0" VerticalAlignment="Top" Width="324"/>
+        <Separator x:Name="s5" HorizontalAlignment="Left" Style="{DynamicResource SeparatorLightStyle}" Height="9" Margin="0,477,0,0" VerticalAlignment="Top" Width="324"/>
+
+        <TextBox x:Name="AlphaTextBox" Style="{DynamicResource TextBoxLightStyle}" HorizontalAlignment="Left" Height="26" Margin="137,201,0,0" TextWrapping="Wrap" Text="255" VerticalAlignment="Top" Width="177" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="SizeTextBox" Style="{DynamicResource TextBoxLightStyle}" HorizontalAlignment="Left" Height="26" Margin="137,170,0,0" TextWrapping="Wrap" Text="1" VerticalAlignment="Top" Width="177" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="IndexTextBox" Style="{DynamicResource TextBoxLightStyle}" HorizontalAlignment="Left" Height="26" Margin="137,263,0,0" TextWrapping="Wrap" Text="-1" VerticalAlignment="Top" Width="177" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+        <TextBox x:Name="AlphaLetTextBox" Style="{DynamicResource TextBoxLightStyle}" HorizontalAlignment="Left" Height="26" Margin="137,415,0,0" TextWrapping="Wrap" Text="255" VerticalAlignment="Top" Width="177" HorizontalContentAlignment="Center" VerticalContentAlignment="Center"/>
+
+        <Label x:Name="l1" Content="Тип 3D точек:" HorizontalAlignment="Left" Margin="10,139,0,0" VerticalAlignment="Top" Width="119" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l2" Content="Альфа канал:" HorizontalAlignment="Left" Margin="10,201,0,0" VerticalAlignment="Top" Width="119" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l3" Content="Цвет точки:" HorizontalAlignment="Left" Margin="10,232,0,0" VerticalAlignment="Top" Width="119" RenderTransformOrigin="0.496,-0.154" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l4" Content="Размер 3D точки:  " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,170,0,0" Width="119" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l5" Content="Номер слоя:" HorizontalAlignment="Left" Margin="10,263,0,0" VerticalAlignment="Top" Width="119" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l6" Content="Плоскость:" HorizontalAlignment="Left" Margin="10,294,0,0" VerticalAlignment="Top" Width="119" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l7" Content="Тип 2D точек" HorizontalAlignment="Left" Margin="10,325,0,0" VerticalAlignment="Top" Width="119" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l8" Content="Отображение загрязнения" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="304" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l9" Content="Отображение препятствия" HorizontalAlignment="Left" Margin="10,370,0,0" VerticalAlignment="Top" Width="304" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontWeight="Bold" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l10" Content="Альфа канал:" HorizontalAlignment="Left" Margin="10,415,0,0" VerticalAlignment="Top" Width="119" Style="{DynamicResource LabelLight}"/>
+        <Label x:Name="l11" Content="Цвет точки:" HorizontalAlignment="Left" Margin="10,446,0,0" VerticalAlignment="Top" Width="119" RenderTransformOrigin="0.496,-0.154" Style="{DynamicResource LabelLight}"/>
+
+        <Button x:Name="ColorButton" Style="{DynamicResource ButtonLightStyle}"  Content="" HorizontalAlignment="Left" Margin="137,232,0,0" VerticalAlignment="Top" Width="177" Height="26" Click="ColorButton_Click"/>
+        <Button x:Name="ColorLetButton" Style="{DynamicResource ButtonLightStyle}"  Content="" HorizontalAlignment="Left" Margin="137,446,0,0" VerticalAlignment="Top" Width="177" Height="26" Click="ColorLetButton_Click"/>
+        <Button x:Name="CancelButton" Style="{DynamicResource ButtonLightStyle}" Content="Отмена" HorizontalAlignment="Left" Margin="10,491,0,0" VerticalAlignment="Top" Width="75" RenderTransformOrigin="0.307,-0.3" Click="CancelButton_Click"/>
+        <Button x:Name="SaveButton" Style="{DynamicResource ButtonLightStyle}" Content="Применить" HorizontalAlignment="Left" Margin="239,491,0,0" VerticalAlignment="Top" Width="75" IsEnabled="False" Click="SaveButton_Click"/>
+
+        <ComboBox x:Name="AxisMeshComboBox" Style="{DynamicResource ComboBoxLightStyle}" HorizontalAlignment="Left" Margin="137,294,0,0" VerticalAlignment="Top" Width="177" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="Gray" IsTextSearchEnabled="False">
             <ComboBoxItem Content="Ox" IsSelected="True"/>
             <ComboBoxItem Content="Oy"/>
             <ComboBoxItem Content="Oz"/>
         </ComboBox>
-        <ComboBox x:Name="Point2DComboBox" Style="{DynamicResource ComboBoxLightStyle}" HorizontalAlignment="Left" Margin="134,280,0,0" VerticalAlignment="Top" Width="177" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsTextSearchEnabled="False">
+        <ComboBox x:Name="Point2DComboBox" Style="{DynamicResource ComboBoxLightStyle}" HorizontalAlignment="Left" Margin="137,325,0,0" VerticalAlignment="Top" Width="177" Height="26" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" IsTextSearchEnabled="False">
             <ComboBoxItem Content="Эллипс" IsSelected="True"/>
             <ComboBoxItem Content="Квадрат"/>
         </ComboBox>
-        <ComboBox x:Name="PointTypeComboBox" Style="{DynamicResource ComboBoxLightStyle}" HorizontalAlignment="Left" Margin="134,94,0,0" VerticalAlignment="Top" Width="177" Height="26" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsTextSearchEnabled="False">
+        <ComboBox x:Name="PointTypeComboBox" Style="{DynamicResource ComboBoxLightStyle}" HorizontalAlignment="Left" Margin="137,139,0,0" VerticalAlignment="Top" Width="177" Height="26" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" IsTextSearchEnabled="False">
             <ComboBoxItem Content="Точка" IsSelected="True"/>
             <ComboBoxItem Content="Эллипс"/>
             <ComboBoxItem Content="Квадрат"/>

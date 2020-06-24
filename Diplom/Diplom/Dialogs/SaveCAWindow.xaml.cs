@@ -29,15 +29,15 @@ namespace Diplom.Forms
 
         public string FileName { get; set; }
 
-        private CA_Model.Axis _selectAxis;
+        private Axis _selectAxis;
 
         public SciChart3DSurface SciChart3D { get; set; }
 
         public SciChartSurface SciChart2D { get; set; }
 
-        public MainWindow.Chart SelectionChart { get; set; }
+        public Chart SelectionChart { get; set; }
 
-        public CA_Model.Axis SelectAxis { get { return _selectAxis; } set { _selectAxis = value; SetLabel(); } }
+        public Axis SelectAxis { get { return _selectAxis; } set { _selectAxis = value; SetLabel(); } }
 
         private int _selectIndex;
 
@@ -99,15 +99,15 @@ namespace Diplom.Forms
 
             switch (SelectAxis)
             {
-                case CA_Model.Axis.Ox:
+                case Axis.Ox:
                     s += "Плоскость Ox;";
                     break;
 
-                case CA_Model.Axis.Oy:
+                case Axis.Oy:
                     s += "Плоскость Oy;";
                     break;
 
-                case CA_Model.Axis.Oz:
+                case Axis.Oz:
                     s += "Плоскость Oz;";
                     break;
 
@@ -212,15 +212,15 @@ namespace Diplom.Forms
 
                 switch (SelectAxis)
                 {
-                    case CA_Model.Axis.Ox:
+                    case Axis.Ox:
                         s += "Y/Z";
                         break;
 
-                    case CA_Model.Axis.Oy:
+                    case Axis.Oy:
                         s += "X/Z";
                         break;
 
-                    case CA_Model.Axis.Oz:
+                    case Axis.Oz:
                         s += "X/Y" +
                             "";
                         break;
@@ -279,12 +279,12 @@ namespace Diplom.Forms
 
                 switch (SelectionChart) {
                     default:
-                    case MainWindow.Chart.PointChart3D:
-                    case MainWindow.Chart.MeshChart:
+                    case Chart.PointChart3D:
+                    case Chart.MeshChart:
                         bitmap = SciChart3D.ExportToBitmapSource();
                         break;
 
-                    case MainWindow.Chart.PointChart2D:
+                    case Chart.PointChart2D:
                         bitmap = SciChart2D.ExportToBitmapSource();
                         break;
 
