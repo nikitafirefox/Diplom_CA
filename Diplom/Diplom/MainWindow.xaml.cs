@@ -330,13 +330,13 @@ namespace Diplom
                     {
                         for (int j = 0; j < CA.Length; j++)
                         {
-                            if (CA.GetPointPollution(_selectAxis, _selectIndex, i, j) == ABC.Pollution)
+                            if (CA.GetPoint(_selectAxis, _selectIndex, i, j) == ABC.Pollution)
                             {
 
                                 dataPollutionGraph_2D.Append(i, j);
 
                             }
-                            else if (CA.GetPointPollution(_selectAxis, _selectIndex, i, j) == ABC.Let)
+                            else if (CA.GetPoint(_selectAxis, _selectIndex, i, j) == ABC.Let)
                             {
                                 dataLetGraph_2D.Append(i, j);
                             }

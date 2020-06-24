@@ -1538,6 +1538,26 @@ namespace  CA
 
         #endregion
 
+        #region GetPoint
+
+        public ABC GetPoint(Axis axis, int selectIndex, int index1, int index2) {
+
+            switch (axis) {
+
+                default:
+                case Axis.Ox:
+                    return Auto[selectIndex, index1, index2];
+                case Axis.Oy:
+                    return Auto[index1, selectIndex, index2];
+                case Axis.Oz:
+                    return Auto[index1, index2, selectIndex];
+
+            }
+
+        }
+
+        #endregion
+
         #region GettingPollution
 
         public double[,] GetPollution(int index, Axis axis) {
@@ -1567,22 +1587,6 @@ namespace  CA
                     break;
             }
             return res;
-        }
-
-        public ABC GetPointPollution(Axis axis, int selectIndex, int index1, int index2) {
-
-            switch (axis) {
-
-                default:
-                case Axis.Ox:
-                    return Auto[selectIndex, index1, index2];
-                case Axis.Oy:
-                    return Auto[index1, selectIndex, index2];
-                case Axis.Oz:
-                    return Auto[index1, index2, selectIndex];
-
-            }
-
         }
 
         private double[,] GetAsyncPollution(int index, Axis axis) {
