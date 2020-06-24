@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\App.xaml
-8408738215
+81202778056
 
-14258558134
+14-1674858750
 291780418212
-Dialogs\AddWindow.xaml;Dialogs\SaveCAWindow.xaml;Dialogs\WindWindow.xaml;MainWindow.xaml;Dialogs\SettingsWindow.xaml;Dialogs\TypeChartWindow.xaml;Styles\DarkStyle.xaml;Styles\LightStyle.xaml;
+Dialogs\AddPollutionWindow.xaml;Dialogs\SaveCAWindow.xaml;Dialogs\WindWindow.xaml;MainWindow.xaml;Dialogs\SettingsWindow.xaml;Dialogs\TypeChartWindow.xaml;Styles\DarkStyle.xaml;Styles\LightStyle.xaml;
 
 True
 

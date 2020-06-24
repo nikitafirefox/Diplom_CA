@@ -3433,7 +3433,7 @@
         </member>
         <member name="P:SciChart.Charting.ChartModifiers.ZoomPanModifierBase.ZoomExtentsY">
             <summary>
-            If true, zooms to extents on the Y-Axis on each zoom operation when panning in X-Direction only. Use in conjunction with <see cref="P:SciChart.Charting.ChartModifiers.ZoomPanModifierBase.XyDirection"/> to achieve different zooming effects
+            If true, zooms to extents on the Y-Axis on each zoom operation when panning in X-Direction only. Use in conjuction with <see cref="P:SciChart.Charting.ChartModifiers.ZoomPanModifierBase.XyDirection"/> to achieve different zooming effects
             </summary>
         </member>
         <member name="P:SciChart.Charting.ChartModifiers.ZoomPanModifierBase.XyDirection">
@@ -4200,11 +4200,6 @@
             Gets or sets the value which specifies tooltip placement.
             </summary>
         </member>
-        <member name="P:SciChart.Charting.ChartModifiers.TooltipModifierBase.IsTooltipControl">
-            <summary>
-            Gets the value which indicates whether tooltip is a <see cref="T:SciChart.Charting.Visuals.RenderableSeries.TooltipControl"/>
-            </summary>
-        </member>
         <member name="M:SciChart.Charting.ChartModifiers.TooltipModifierBase.InitializeModifierPopup">
             <summary>
             Called by inherited modifiers
@@ -4258,6 +4253,12 @@
             Called when the mouse leaves the parent <see cref="T:SciChart.Charting.Visuals.SciChartSurface"/>
             </summary>
         </member>
+        <member name="M:SciChart.Charting.ChartModifiers.TooltipModifierBase.GetTooltipUsageMode">
+            <summary>
+            Returns the TooltipUsageMode property value for this <see cref="T:SciChart.Charting.ChartModifiers.ChartModifierBase"/> instance
+            </summary>
+            <returns></returns>
+        </member>
         <member name="M:SciChart.Charting.ChartModifiers.TooltipModifierBase.HasToShowTooltip">
             <summary>
             Checks <see cref="P:SciChart.Charting.ChartModifiers.TooltipModifierBase.ShowTooltipOn"/> property and returns value, indicating whether the tooltip has to be shown
@@ -4303,31 +4304,6 @@
         <member name="M:SciChart.Charting.ChartModifiers.TooltipModifierBase.PlaceOverlay(System.Windows.FrameworkElement,System.Windows.Point,System.Double)">
             <summary>
             Calculates X and Y coordinates of placement point
-            </summary>
-        </member>
-        <member name="M:SciChart.Charting.ChartModifiers.TooltipModifierBase.OpenPopup(System.Double,System.Double)">
-            <summary>
-            Opens the popup which shows tooltips
-            </summary>
-        </member>
-        <member name="M:SciChart.Charting.ChartModifiers.TooltipModifierBase.OpenPopup">
-            <summary>
-            Opens the popup which shows tooltips
-            </summary>
-        </member>
-        <member name="M:SciChart.Charting.ChartModifiers.TooltipModifierBase.ClosePopup">
-            <summary>
-            Closes the popup which shows tooltips
-            </summary>
-        </member>
-        <member name="M:SciChart.Charting.ChartModifiers.TooltipModifierBase.ClearPopup">
-            <summary>
-            Clears the content of the popup which shows tooltips
-            </summary>
-        </member>
-        <member name="M:SciChart.Charting.ChartModifiers.TooltipModifierBase.PopupAddChild(System.Windows.FrameworkElement)">
-            <summary>
-            Adds an element to the popup which shows tooltips
             </summary>
         </member>
         <member name="M:SciChart.Charting.ChartModifiers.TooltipModifierBase.ClearAxesOverlay">
@@ -5966,12 +5942,6 @@
             <param name="e">Arguments detailing the mouse button operation</param>
             <remarks></remarks>
         </member>
-        <member name="M:SciChart.Charting.ChartModifiers.ZoomPanModifier.OnModifierKeyDown(SciChart.Core.Utility.Mouse.ModifierKeyArgs)">
-            <inheritdoc/>
-        </member>
-        <member name="M:SciChart.Charting.ChartModifiers.ZoomPanModifier.OnModifierTouchManipulationDelta(SciChart.Charting.ChartModifiers.ModifierManipulationDeltaArgs)">
-            <inheritdoc/>
-        </member>
         <member name="M:SciChart.Charting.ChartModifiers.ZoomPanModifier.Pan(System.Windows.Point,System.Windows.Point,System.Windows.Point)">
             <summary>
             Receives zoom command from the user.
@@ -5986,9 +5956,6 @@
             </summary>
             <param name="e">Arguments detailing the mouse button operation</param>
             <remarks></remarks>
-        </member>
-        <member name="M:SciChart.Charting.ChartModifiers.ZoomPanModifier.OnModifierMouseMove(SciChart.Core.Utility.Mouse.ModifierMouseArgs)">
-            <inheritdoc/>
         </member>
         <member name="T:SciChart.Charting.Common.AttachedProperties.AxisLayoutHelper">
             <summary>
@@ -10414,12 +10381,6 @@
         <member name="P:SciChart.Charting.Model.DataSeries.Heatmap2DArrayDataSeries.BaseHeatmapDataSeries`3.Tag">
             <summary>
             Gets or sets an arbitrary tag on the DataSeries
-            </summary>
-        </member>
-        <member name="P:SciChart.Charting.Model.DataSeries.Heatmap2DArrayDataSeries.BaseHeatmapDataSeries`3.OptimizeForNonDoubleZValues">
-            <summary>
-            Property is used to keep better performance with non double type ZValues.
-            Note: if set to true with non double ZValues type then method <see cref="M:SciChart.Charting.Model.DataSeries.Heatmap2DArrayDataSeries.IHeatmapDataSeries.UpdateZValue(System.Int32,System.Int32,System.IComparable)"/> or updating ZValues array by reference has no effect.
             </summary>
         </member>
         <member name="M:SciChart.Charting.Model.DataSeries.Heatmap2DArrayDataSeries.BaseHeatmapDataSeries`3.SciChart#Charting#Model#DataSeries#Heatmap2DArrayDataSeries#IHeatmapDataSeries#UpdateZValue(System.Int32,System.Int32,System.IComparable)">
@@ -18030,27 +17991,6 @@
             <param name="z">Z data value</param>
             <returns>Intersection coordinate</returns>
         </member>
-        <member name="T:SciChart.Charting.Numerics.CoordinateCalculators.ICategoryCoordinateCalculator">
-            <summary>
-            Defines the interface to a <see cref="T:SciChart.Charting.Visuals.Axes.CategoryDateTimeAxis"/> and <see cref="T:SciChart.Charting.Visuals.Axes.CategoryNumericAxis"/> specific ICoordinateCalculator, to convert from pixel coordinate to index to data value and back
-            </summary>
-        </member>
-        <member name="M:SciChart.Charting.Numerics.CoordinateCalculators.ICategoryCoordinateCalculator.TransformDataToIndex(System.IComparable)">
-            <summary>
-            Takes a data-value and transforms to integer index on the axis
-            </summary>
-        </member>
-        <member name="M:SciChart.Charting.Numerics.CoordinateCalculators.ICategoryCoordinateCalculator.TransformIndexToData(System.Int32)">
-            <summary>
-            Takes an integer index (or point number) to the underlying data and transforms to the data value on the axis. 
-            
-            e.g. if the axis is a CategoryDateTimeAxis, accepts index, returns DateTime. 
-            
-            If the index lies outside of the data-range, a projection is performed
-            </summary>
-            <param name="index">The index to the underlying data series</param>
-            <returns>The data value</returns>
-        </member>
         <member name="T:SciChart.Charting.Numerics.CoordinateCalculators.ICategoryCoordinateCalculator`1">
             <summary>
             Defines the interface to a <see cref="T:SciChart.Charting.Visuals.Axes.CategoryDateTimeAxis"/> and <see cref="T:SciChart.Charting.Visuals.Axes.CategoryNumericAxis"/> specific ICoordinateCalculator, to convert from pixel coordinate to index to data value and back
@@ -23261,14 +23201,14 @@
             Defines the ShowAxisOffsets DependencyProperty
             </summary>
         </member>
-        <member name="F:SciChart.Charting.Visuals.Axes.LogarithmicAxis.LogarithmicNumericAxis._offsetDiff">
-            <summary>
-            Defines the OffsetDiff property that holds the difference between dataSeries X or Y range and axis.DataRange
-            </summary>
-        </member>
         <member name="P:SciChart.Charting.Visuals.Axes.LogarithmicAxis.LogarithmicNumericAxis.ShowAxisOffsets">
             <summary>
             Defines the ShowAxisOffsets property
+            </summary>
+        </member>
+        <member name="P:SciChart.Charting.Visuals.Axes.LogarithmicAxis.LogarithmicNumericAxis.OffsetDiff">
+            <summary>
+            Defines the OffsetDiff property that holds the difference between dataSeries.XRange and axis.DataRange
             </summary>
         </member>
         <member name="M:SciChart.Charting.Visuals.Axes.LogarithmicAxis.LogarithmicNumericAxis.#ctor">
@@ -23294,7 +23234,7 @@
         </member>
         <member name="M:SciChart.Charting.Visuals.Axes.LogarithmicAxis.LogarithmicNumericAxis.IsVisibleRangeConstrained(SciChart.Data.Model.IRange)">
             <summary>
-            Checks whether the current <see cref="P:SciChart.Charting.Visuals.Axes.AxisCore.VisibleRange"/> meets <see cref="P:SciChart.Charting.Visuals.Axes.NumericAxis.MinimalZoomConstrain"/>.
+            Checks whether the current <see cref="!:VisibleRange"/> meets <see cref="!:MinimalZoomConstrain"/>.
             </summary>
         </member>
         <member name="M:SciChart.Charting.Visuals.Axes.LogarithmicAxis.LogarithmicNumericAxis.IsValidRange(SciChart.Data.Model.IRange)">
@@ -23314,12 +23254,6 @@
             An <see cref="T:SciChart.Charting.Numerics.DeltaCalculators.IDeltaCalculator" /> instance
             </returns>
         </member>
-        <member name="M:SciChart.Charting.Visuals.Axes.LogarithmicAxis.LogarithmicNumericAxis.CalculateTicks">
-            <summary>
-            Called internal to calculate MinorTicks, MajorTicks before Axis drawing
-            </summary>
-            <remarks></remarks>
-        </member>
         <member name="M:SciChart.Charting.Visuals.Axes.LogarithmicAxis.LogarithmicNumericAxis.GetDefaultNonZeroRange">
             <summary>
             Returns an default non zero <see cref="T:SciChart.Data.Model.IRange" />, called internally by SciChart to reset the VisibleRange of an axis to an undefined state
@@ -23328,7 +23262,7 @@
         </member>
         <member name="M:SciChart.Charting.Visuals.Axes.LogarithmicAxis.LogarithmicNumericAxis.GetMaximumRange">
             <summary>
-            Gets the Maximum Range of the axis, which is equal to the DataRange including any GrowBy factor applied
+            
             </summary>
             <returns></returns>
         </member>
@@ -28481,12 +28415,12 @@
         </member>
         <member name="P:SciChart.Charting.Visuals.RenderableSeries.BaseRenderableSeries.YAxisId">
             <summary>
-            Gets or sets the ID of the Y-Axis which this RenderableSeries is measured against
+            Gets or sets the ID of the Y-Axis which this renderable series is measured against
             </summary>
         </member>
         <member name="P:SciChart.Charting.Visuals.RenderableSeries.BaseRenderableSeries.XAxisId">
             <summary>
-            Gets or sets the ID of the X-Axis which this RenderableSeries is measured against
+            Gets or sets the ID of the X-Axis which this renderable series is measured against
             </summary>
         </member>
         <member name="P:SciChart.Charting.Visuals.RenderableSeries.BaseRenderableSeries.AntiAliasing">
@@ -28540,7 +28474,7 @@
         </member>
         <member name="P:SciChart.Charting.Visuals.RenderableSeries.BaseRenderableSeries.DrawNaNAs">
             <summary>
-            Gets or sets a value indicating how this RenderableSeries will treat double.NaN. See <see cref="T:SciChart.Charting.Visuals.RenderableSeries.LineDrawMode"/> for available options
+            Gets or sets a value indicating how this renderable series will treat double.NaN. See <see cref="T:SciChart.Charting.Visuals.RenderableSeries.LineDrawMode"/> for available options
             </summary>
         </member>
         <member name="P:SciChart.Charting.Visuals.RenderableSeries.BaseRenderableSeries.CurrentRenderPassData">
@@ -28780,12 +28714,12 @@
         </member>
         <member name="M:SciChart.Charting.Visuals.RenderableSeries.BaseRenderableSeries.InterpolatePoint(System.Windows.Point,SciChart.Charting.Visuals.RenderableSeries.HitTestInfo,System.Double)">
             <summary>
-            Interpolation function called by <see cref="M:SciChart.Charting.Visuals.RenderableSeries.BaseRenderableSeries.HitTest(System.Windows.Point,System.Boolean)"/> when the interpolate flag is true
+            Interpolation function called by <see cref="M:SciChart.Charting.Visuals.RenderableSeries.BaseRenderableSeries.HitTest(System.Windows.Point,System.Boolean)"/> when the inpolate flag is true
             </summary>
             <param name="rawPoint">Mouse point</param>
             <param name="nearestHitResult">Non-interpolated <see cref="T:SciChart.Charting.Visuals.RenderableSeries.HitTestInfo"/></param>
             <param name="hitTestRadius">The value, which indicates distance used to consider whether the series is hit or not</param>
-            <returns>Interpolated <see cref="T:SciChart.Charting.Visuals.RenderableSeries.HitTestInfo"/></returns>
+            <returns>Intepolated <see cref="T:SciChart.Charting.Visuals.RenderableSeries.HitTestInfo"/></returns>
         </member>
         <member name="M:SciChart.Charting.Visuals.RenderableSeries.BaseRenderableSeries.IsHitTest(System.Windows.Point,SciChart.Charting.Visuals.RenderableSeries.HitTestInfo,System.Double,System.Windows.Point,System.Windows.Point)">
             <summary>
@@ -35727,11 +35661,6 @@
             Defines the SegmentSpacing DependencyProperty
             </summary>
         </member>
-        <member name="F:SciChart.Charting.Visuals.SciChartPieSurfaceBase.SegmentOuterSpacingProperty">
-            <summary>
-            Defines the SegmentOuterSpacing DependencyProperty
-            </summary>
-        </member>
         <member name="F:SciChart.Charting.Visuals.SciChartPieSurfaceBase.SelectionOffsetProperty">
             <summary>
             Defines the SelectionOffset DependencyProperty
@@ -35750,11 +35679,6 @@
         <member name="P:SciChart.Charting.Visuals.SciChartPieSurfaceBase.SegmentSpacing">
             <summary>
             Gets or sets the value that specifies the spacing between segments.
-            </summary>
-        </member>
-        <member name="P:SciChart.Charting.Visuals.SciChartPieSurfaceBase.SegmentOuterSpacing">
-            <summary>
-            Gets or sets the value that specifies the outer spacing for segments.
             </summary>
         </member>
         <member name="P:SciChart.Charting.Visuals.SciChartPieSurfaceBase.ShowInsideLabel">

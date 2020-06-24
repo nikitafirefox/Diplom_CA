@@ -152,9 +152,11 @@ C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Diplom.cspr
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Diplom.exe
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Diplom.pdb
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Styles\DarkStyle.baml
+C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\AddPollutionWindow.g.cs
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\SaveCAWindow.g.cs
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\SettingsWindow.g.cs
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\TypeChartWindow.g.cs
+C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\AddPollutionWindow.baml
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\SaveCAWindow.baml
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\SettingsWindow.baml
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\TypeChartWindow.baml
@@ -163,5 +165,3 @@ C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\Win
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\WindWindow.baml
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\bin\Debug\CA_lib.dll
 C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\bin\Debug\CA_lib.pdb
-C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\AddWindow.g.cs
-C:\Users\ACER\Desktop\Защита\Diplom_CA\Diplom\Diplom\obj\Debug\Dialogs\AddWindow.baml

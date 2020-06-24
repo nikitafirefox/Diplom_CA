@@ -1,5 +1,4 @@
-﻿using CA_lib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -10,95 +9,17 @@ using System.Xml;
 
 namespace  CA
 {
-    #region enums
-
-    public enum Axis { Ox = 0, Oy, Oz }
-
-    public enum ThreadDispatcherType {Auto = 0, Async, Sync }
-
-    public enum ABC {Null = 0, Pollution, Let }
-
-    #endregion
 
     [Serializable]
     public class CA_Model
     {
+        public enum Axis { Ox = 0, Oy, Oz }
 
-        #region structs
-
-        [Serializable]
-        private struct PollutionRayParam
-        {
-            public int index;
-            public Axis axis;
-            public int Start;
-            public int End;
-            public double[,] res;
-        }
-
-        [Serializable]
-        private struct NextParam
-        {
-            public int StartX;
-            public int EndX;
-            public int Start;
-            public int End;
-            public Random randomAxis;
-            public Random randomDirection;
-        }
-
-        #endregion
-
-        #region statics
-
-        public static string GetNameAxis(Axis i)
-        {
-
-            switch (i)
-            {
-                case Axis.Ox:
-                    return "Ox";
-
-                case Axis.Oy:
-                    return "Oy";
-
-                case Axis.Oz:
-                    return "Oz";
-
-                default:
-                    return "";
-            }
-        }
-
-        #endregion
-
-        #region variables
+        public enum ThreadDispatcherType {Auto = 0, Async, Sync }
 
         protected ThreadDispatcherType _selectThreadDispatcher = ThreadDispatcherType.Auto;
 
         protected double _wind = 0;
-
-        protected int _countThread;
-
-        private int _length;
-
-        private List<Pollution> _pollutions = new List<Pollution>();
-
-        private List<Rectangle> _lets = new List<Rectangle>();
-
-        private double _pAxis = 1.0 / 3.0;
-
-        private double _pDirection = 1.0 / 3.0;
-
-        private Random _randomAxis = new Random();
-
-        private Random _randomDirection = new Random();
-
-        private Random _randomWind = new Random();
-
-        #endregion
-
-        #region properties
 
         public double MaxWind { get; private set; } = 20;
 
@@ -121,6 +42,27 @@ namespace  CA
             }
         }
 
+        protected int _countThread;
+
+        public static string GetNameAxis(Axis i) {
+
+            switch (i) {
+                case Axis.Ox:
+                    return "Ox";
+
+                case Axis.Oy:
+                    return "Oy";
+
+                case Axis.Oz:
+                    return "Oz";
+
+                default:
+                    return "";
+            }
+        }
+
+        private int _length;
+
         public string Name { get; set; } = "New_CA";
 
         public int Length {
@@ -129,11 +71,10 @@ namespace  CA
                 _length = value;
                 Iterator = 0;
                 _pollutions.Clear();
-                _lets.Clear();
                 if (value < MaxWind) {
                     MaxWind = value / 2;
                 }
-                Auto = new ABC[Length, Length, Length];
+                Auto = new bool[Length, Length, Length];
 
             }
             get {
@@ -141,6 +82,12 @@ namespace  CA
             } }
 
         public int Iterator { private set; get; }
+
+        private List<Pollution> _pollutions = new List<Pollution>();
+
+        private double _pAxis = 1.0 / 3.0;
+
+        private double _pDirection = 1.0 / 3.0;
 
         public double PAxis {
             get
@@ -168,13 +115,17 @@ namespace  CA
             }
         }
 
+        private Random _randomAxis = new Random();
+
+        private Random _randomDirection = new Random();
+
+        private Random _randomWind = new Random();
+
         public int Ray { set; get; }
 
-        private ABC[,,] Auto { set; get; }
+        private bool[,,] Auto { set; get; }
 
-        #endregion
-
-        public ABC this[int x, int y, int z] {
+        public bool this[int x, int y, int z] {
             get {
                 return Auto[x, y, z];
             }
@@ -209,8 +160,6 @@ namespace  CA
 
             }
         }
-
-        #region XML
 
         public bool OpenXML(string pathXML)
         {
@@ -486,7 +435,7 @@ namespace  CA
 
             foreach (XmlNode x in xmlNode.ChildNodes)
             {
-                string xString1, xString2, yString1, yString2, zString1, zString2, freqString, startPollutinString;
+                string xString1, xString2, yString1, yString2, zString1, zString2;
 
                 try
                 {
@@ -541,26 +490,7 @@ namespace  CA
                     zString2 = "";
                 }
 
-                try
-                {
-                    freqString = x.Attributes.GetNamedItem("freq").Value;
-                }
-                catch
-                {
-                    freqString = "";
-                }
-
-                try
-                {
-                    startPollutinString = x.Attributes.GetNamedItem("startPollutin").Value;
-                }
-                catch
-                {
-                    startPollutinString = "";
-                }
-
-                int x1, x2, y1, y2, z1, z2, freq;
-                bool startPollution;
+                int x1, x2, y1, y2, z1, z2;
 
                 if (int.TryParse(xString1, out count))
                 {
@@ -670,24 +600,7 @@ namespace  CA
                     }
                 }
 
-                if (int.TryParse(freqString, out count))
-                {
-                    freq = count;
-                }
-                else
-                {
-                    freq = 0;
-                }
-
-                if (bool.TryParse(startPollutinString, out bool b))
-                {
-                    startPollution = b;
-                }
-                else {
-                    startPollution = true;
-                }
-
-                AddPollution(x1, x2, y1, y2, z1, z2, freq, startPollution);
+                AddPollution(x1, x2, y1, y2, z1, z2);
 
             }
 
@@ -780,14 +693,12 @@ namespace  CA
             foreach (var x in _pollutions)
             {
                 XmlElement ePollution = xmlDocument.CreateElement("pollution");
-                ePollution.SetAttribute("x1", x.XStart.ToString());
-                ePollution.SetAttribute("x2", x.XEnd.ToString());
-                ePollution.SetAttribute("y1", x.YStart.ToString());
-                ePollution.SetAttribute("y2", x.YEnd.ToString());
-                ePollution.SetAttribute("z1", x.ZStart.ToString());
-                ePollution.SetAttribute("z2", x.ZEnd.ToString());
-                ePollution.SetAttribute("freq", x.Frequency.ToString());
-                ePollution.SetAttribute("startPollutin", x.StartPollutin.ToString());
+                ePollution.SetAttribute("x1", x.xStart.ToString());
+                ePollution.SetAttribute("x2", x.xEnd.ToString());
+                ePollution.SetAttribute("y1", x.yStart.ToString());
+                ePollution.SetAttribute("y2", x.yEnd.ToString());
+                ePollution.SetAttribute("z1", x.zStart.ToString());
+                ePollution.SetAttribute("z2", x.zEnd.ToString());
                 element.AppendChild(ePollution);
             }
 
@@ -795,57 +706,7 @@ namespace  CA
 
         }
 
-        #endregion
-
-        #region Adding
-
-        public void AddPollution(int XStart, int XEnd, int YStart, int YEnd, int ZStart, int ZEnd, 
-            int frequency = 0, bool startPollution = true) {
-
-            _pollutions.Add(new Pollution()
-            {
-                XStart = XStart,
-                XEnd = XEnd,
-                YStart = YStart,
-                YEnd = YEnd,
-                ZStart = ZStart,
-                ZEnd = ZEnd,
-                Frequency = frequency,
-                StartPollutin = startPollution,
-            });
-
-            if (startPollution)
-                Add(XStart, XEnd, YStart, YEnd, ZStart, ZEnd, ABC.Pollution);
-
-        }
-
-
-        private void AddPollution(Pollution pollution) {
-            Add(pollution.XStart, pollution.XEnd, pollution.YStart, pollution.YEnd, pollution.ZStart, pollution.ZEnd, ABC.Pollution);
-        }
-
-
-        public void AddLet(int XStart, int XEnd, int YStart, int YEnd, int ZStart, int ZEnd)
-        {
-            _lets.Add(new Rectangle()
-            {
-                XStart = XStart,
-                XEnd = XEnd,
-                YStart = YStart,
-                YEnd = YEnd,
-                ZStart = ZStart,
-                ZEnd = ZEnd,
-            });
-
-            Add(XStart, XEnd, YStart, YEnd, ZStart, ZEnd, ABC.Let);
-        }
-
-        private void AddLet(Rectangle let)
-        {
-            Add(let.XStart, let.XEnd, let.YStart, let.YEnd, let.ZStart, let.ZEnd, ABC.Let);
-        }
-
-        private void Add(int XStart, int XEnd, int YStart, int YEnd, int ZStart, int ZEnd, ABC type) {
+        private void Add(int XStart, int XEnd, int YStart, int YEnd, int ZStart, int ZEnd) {
 
             for (int x = XStart; x <= XEnd; x++)
             {
@@ -854,7 +715,7 @@ namespace  CA
                     for (int z = ZStart; z <= ZEnd; z++)
                     {
 
-                        Auto[x, y, z] = type;
+                        Auto[x, y, z] = true;
 
                     }
                 }
@@ -862,18 +723,19 @@ namespace  CA
 
         }
 
-        #endregion
+        public void AddPollution(int XStart, int XEnd, int YStart, int YEnd, int ZStart, int ZEnd) {
 
-        #region NextIteration
+            _pollutions.Add(new Pollution() { xStart = XStart, xEnd = XEnd, yStart = YStart, yEnd = YEnd, zStart = ZStart, zEnd = ZEnd });
+
+            Add(XStart, XEnd, YStart, YEnd, ZStart, ZEnd);
+
+        }
 
         public void Next() {
             Next(_selectThreadDispatcher);
         }
 
         public void Next(ThreadDispatcherType dispatcherType) {
-
-            if(Iterator > 0)
-                PollutionEmissionStep();
 
             switch (dispatcherType){
                 case ThreadDispatcherType.Auto:
@@ -895,19 +757,26 @@ namespace  CA
                     break;
             }
 
-            ResetStep();
-            if (Wind > 0 && _lets.Count == 0)
-                WindStep();
+        }
 
-            Iterator++;
-
+        [Serializable]
+        private struct NextParam {
+           public int StartX;
+           public int EndX;
+           public int Start;
+           public int End;
+           public Random randomAxis;
+           public Random randomDirection;
         }
 
         private void NextAsync() {
-
             NextAsync(true);
             NextAsync(false);
-
+            ResetStep();
+            if (Wind > 0) {
+                WindStep();
+            }
+            Iterator++;
         }
 
         private void NextAsync(bool direction) {
@@ -960,31 +829,23 @@ namespace  CA
             }
 
         }
-        
-        private void NextSync() {
-
-            Step(0, _length);
-            Step(1, _length - 1);
-
-        }
-
-        #endregion
-
-        #region Steps
-
-        private void PollutionEmissionStep()
-        {
-            var pollutions = _pollutions.Where(x => x.Frequency > 0 && Iterator % x.Frequency == 0);
-
-            foreach (var p in pollutions)
-            {
-                AddPollution(p);
-            }
-        }
 
         private void Step(object obj) {
             NextParam nextParam = (NextParam)obj;
             Step(nextParam.StartX, nextParam.EndX,nextParam.Start,nextParam.End,nextParam.randomAxis,nextParam.randomDirection);
+        }
+
+        private void NextSync() {
+
+            Step(0, _length);
+            Step(1, _length - 1);
+            ResetStep();
+            if (Wind > 0)
+            {
+                WindStep();
+            }
+            Iterator++;
+
         }
 
         private void Step(int start, int end) {
@@ -1009,8 +870,8 @@ namespace  CA
                         double randDirection = randomDirection.NextDouble();
 
 
-                        ABC a, b, c, d, e, f, g, h;
-                        bool direction;
+                        bool a, b, c, d, e, f, g, h;
+
 
                         //Поворот вдоль Ox
                         if ((randAxis >= 0) && (randAxis < _pAxis))
@@ -1022,13 +883,10 @@ namespace  CA
                                 b = Auto[x, y + 1, z + 1];
                                 c = Auto[x, y + 1, z];
                                 d = Auto[x, y, z];
-
                                 e = Auto[x + 1, y, z + 1];
                                 f = Auto[x + 1, y + 1, z + 1];
                                 g = Auto[x + 1, y + 1, z];
                                 h = Auto[x + 1, y, z];
-
-                                direction = true;
                             }
                             else if ((randDirection > (1 - _pDirection)) && (randDirection <= 1))
                             {
@@ -1036,114 +894,24 @@ namespace  CA
                                 b = Auto[x, y, z];
                                 c = Auto[x, y, z + 1];
                                 d = Auto[x, y + 1, z + 1];
-
                                 e = Auto[x + 1, y + 1, z];
                                 f = Auto[x + 1, y, z];
                                 g = Auto[x + 1, y, z + 1];
                                 h = Auto[x + 1, y + 1, z + 1];
-
-                                direction = false;
-
                             }
                             else
                             {
                                 continue;
                             }
 
-
-
-                            if (a != ABC.Let && b != ABC.Let && c != ABC.Let && d != ABC.Let)
-                            {
-                                Auto[x, y, z] = a;
-                                Auto[x, y, z + 1] = b;
-                                Auto[x, y + 1, z + 1] = c;
-                                Auto[x, y + 1, z] = d;
-                            }
-                            else
-                            {
-                                if (Auto[x, y, z] == ABC.Null && a != ABC.Let) {
-                                    Auto[x, y, z] = a;
-                                    if (direction)
-                                        Auto[x, y, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x, y + 1, z] = ABC.Null;
-                                }
-
-                                if (Auto[x, y, z + 1] == ABC.Null && b != ABC.Let) {
-                                    Auto[x, y, z + 1] = b;
-                                    if (direction)
-                                        Auto[x, y + 1, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x, y, z] = ABC.Null;
-
-                                }
-
-                                if (Auto[x, y + 1, z + 1] == ABC.Null && c != ABC.Let) {
-                                    Auto[x, y + 1, z + 1] = c;
-                                    if (direction)
-                                        Auto[x, y + 1, z] = ABC.Null;
-                                    else
-                                        Auto[x, y, z + 1] = ABC.Null;
-                                }
-
-                                if (Auto[x, y + 1, z] == ABC.Null && d != ABC.Let) {
-                                    Auto[x, y + 1, z] = d;
-                                    if (direction)
-                                        Auto[x, y, z] = ABC.Null;
-                                    else
-                                        Auto[x, y + 1, z + 1] = ABC.Null;
-                                }
-                                
-
-
-                            }
-
-                            if (e != ABC.Let && f != ABC.Let && g != ABC.Let && h != ABC.Let)
-                            {
-                                Auto[x + 1, y, z] = e;
-                                Auto[x + 1, y, z + 1] = f;
-                                Auto[x + 1, y + 1, z + 1] = g;
-                                Auto[x + 1, y + 1, z] = h;
-                            }
-                            else
-                            {
-                                if (Auto[x + 1, y, z] == ABC.Null && e != ABC.Let)
-                                {
-                                    Auto[x + 1, y, z] = e;
-                                    if (direction)
-                                        Auto[x + 1, y, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x + 1, y + 1, z] = ABC.Null;
-                                }
-
-                                if (Auto[x + 1, y, z + 1] == ABC.Null && f != ABC.Let)
-                                {
-                                    Auto[x + 1, y, z + 1] = f;
-                                    if (direction)
-                                        Auto[x + 1, y + 1, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x + 1, y, z] = ABC.Null;
-                                }
-
-                                if (Auto[x + 1, y + 1, z + 1] == ABC.Null && g != ABC.Let)
-                                {
-                                    Auto[x + 1, y + 1, z + 1] = g;
-                                    if (direction)
-                                        Auto[x + 1, y + 1, z] = ABC.Null;
-                                    else
-                                        Auto[x + 1, y, z + 1] = ABC.Null;
-                                }
-
-                                if (Auto[x + 1, y + 1, z] == ABC.Null && h != ABC.Let)
-                                {
-                                    Auto[x + 1, y + 1, z] = h;
-                                    if (direction)
-                                        Auto[x + 1, y, z] = ABC.Null;
-                                    else
-                                        Auto[x + 1, y + 1, z + 1] = ABC.Null;
-                                }
-
-                            }
+                            Auto[x, y, z] = a;
+                            Auto[x, y, z + 1] = b;
+                            Auto[x, y + 1, z + 1] = c;
+                            Auto[x, y + 1, z] = d;
+                            Auto[x + 1, y, z] = e;
+                            Auto[x + 1, y, z + 1] = f;
+                            Auto[x + 1, y + 1, z + 1] = g;
+                            Auto[x + 1, y + 1, z] = h;
                         }
                         //Oy
                         else if ((randAxis > (1 - _pAxis)) && (randAxis <= 1))
@@ -1154,13 +922,10 @@ namespace  CA
                                 b = Auto[x + 1, y, z + 1];
                                 c = Auto[x + 1, y, z];
                                 d = Auto[x, y, z];
-
                                 e = Auto[x, y + 1, z + 1];
                                 f = Auto[x + 1, y + 1, z + 1];
                                 g = Auto[x + 1, y + 1, z];
                                 h = Auto[x, y + 1, z];
-
-                                direction = true;
                             }
                             else if ((randDirection > (1 - _pDirection)) && (randDirection <= 1))
                             {
@@ -1168,112 +933,24 @@ namespace  CA
                                 b = Auto[x, y, z];
                                 c = Auto[x, y, z + 1];
                                 d = Auto[x + 1, y, z + 1];
-
                                 e = Auto[x + 1, y + 1, z];
                                 f = Auto[x, y + 1, z];
                                 g = Auto[x, y + 1, z + 1];
                                 h = Auto[x + 1, y + 1, z + 1];
-
-                                direction = false;
                             }
                             else
                             {
                                 continue;
                             }
 
-                            if (a != ABC.Let && b != ABC.Let && c != ABC.Let && d != ABC.Let)
-                            {
-                                Auto[x, y, z] = a;
-                                Auto[x, y, z + 1] = b;
-                                Auto[x + 1, y, z + 1] = c;
-                                Auto[x + 1, y, z] = d;
-                            }
-                            else
-                            {
-                                if (Auto[x, y, z] == ABC.Null && a != ABC.Let)
-                                {
-                                    Auto[x, y, z] = a;
-                                    if (direction)
-                                        Auto[x, y, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x + 1, y, z] = ABC.Null;
-                                }
-
-                                if (Auto[x, y, z + 1] == ABC.Null && b != ABC.Let)
-                                {
-                                    Auto[x, y, z + 1] = b;
-                                    if (direction)
-                                        Auto[x + 1, y, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x, y, z] = ABC.Null;
-                                }
-
-                                if (Auto[x + 1, y, z + 1] == ABC.Null && c != ABC.Let)
-                                {
-                                    Auto[x + 1, y, z + 1] = c;
-                                    if (direction)
-                                        Auto[x + 1, y, z] = ABC.Null;
-                                    else
-                                        Auto[x, y, z + 1] = ABC.Null;
-                                }
-
-                                if (Auto[x + 1, y, z] == ABC.Null && d != ABC.Let)
-                                {
-                                    Auto[x + 1, y, z] = d;
-                                    if (direction)
-                                        Auto[x, y, z] = ABC.Null;
-                                    else
-                                        Auto[x + 1, y, z + 1] = ABC.Null;
-                                }
-
-                            }
-
-                            if (e != ABC.Let && f != ABC.Let && g != ABC.Let && h != ABC.Let)
-                            {
-                                Auto[x, y + 1, z] = e;
-                                Auto[x, y + 1, z + 1] = f;
-                                Auto[x + 1, y + 1, z + 1] = g;
-                                Auto[x + 1, y + 1, z] = h;
-                            }
-                            else
-                            {
-                                if (Auto[x, y + 1, z] == ABC.Null && e != ABC.Let)
-                                {
-                                    Auto[x, y + 1, z] = e;
-                                    if (direction)
-                                        Auto[x, y + 1, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x + 1, y + 1, z] = ABC.Null;
-                                }
-
-                                if (Auto[x, y + 1, z + 1] == ABC.Null && f != ABC.Let)
-                                {
-                                    Auto[x, y + 1, z + 1] = f;
-                                    if (direction)
-                                        Auto[x + 1, y + 1, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x, y + 1, z] = ABC.Null;
-                                }
-
-                                if (Auto[x + 1, y + 1, z + 1] == ABC.Null && g != ABC.Let)
-                                {
-                                    Auto[x + 1, y + 1, z + 1] = g;
-                                    if (direction)
-                                        Auto[x + 1, y + 1, z] = ABC.Null;
-                                    else
-                                        Auto[x, y + 1, z + 1] = ABC.Null;
-                                }
-
-                                if (Auto[x + 1, y + 1, z] == ABC.Null && h != ABC.Let)
-                                {
-                                    Auto[x + 1, y + 1, z] = h;
-                                    if (direction)
-                                        Auto[x, y + 1, z] = ABC.Null;
-                                    else
-                                        Auto[x + 1, y + 1, z + 1] = ABC.Null;
-                                }
-
-                            }
+                            Auto[x, y, z] = a;
+                            Auto[x, y, z + 1] = b;
+                            Auto[x + 1, y, z + 1] = c;
+                            Auto[x + 1, y, z] = d;
+                            Auto[x, y + 1, z] = e;
+                            Auto[x, y + 1, z + 1] = f;
+                            Auto[x + 1, y + 1, z + 1] = g;
+                            Auto[x + 1, y + 1, z] = h;
 
                         }
                         //Oz
@@ -1283,15 +960,12 @@ namespace  CA
                             {
                                 a = Auto[x, y + 1, z];
                                 b = Auto[x + 1, y + 1, z];
-                                c = Auto[x + 1, y, z];
+                                c = Auto[x + 1, y + 1, z];
                                 d = Auto[x, y, z];
-
                                 e = Auto[x, y + 1, z + 1];
                                 f = Auto[x + 1, y + 1, z + 1];
-                                g = Auto[x + 1, y, z + 1];
+                                g = Auto[x + 1, y + 1, z + 1];
                                 h = Auto[x, y, z + 1];
-
-                                direction = true;
                             }
                             else if ((randDirection > (1 - _pDirection)) && (randDirection <= 1))
                             {
@@ -1299,107 +973,24 @@ namespace  CA
                                 b = Auto[x, y, z];
                                 c = Auto[x, y + 1, z];
                                 d = Auto[x + 1, y + 1, z];
-
                                 e = Auto[x + 1, y, z + 1];
                                 f = Auto[x, y, z + 1];
                                 g = Auto[x, y + 1, z + 1];
                                 h = Auto[x + 1, y + 1, z + 1];
-
-                                direction = false;
                             }
                             else
                             {
                                 continue;
                             }
 
-                            if (a != ABC.Let && b != ABC.Let && c != ABC.Let && d != ABC.Let)
-                            {
-                                Auto[x, y, z] = a;
-                                Auto[x, y + 1, z] = b;
-                                Auto[x + 1, y + 1, z] = c;
-                                Auto[x + 1, y, z] = d;
-                            }
-                            else
-                            {
-                                if (Auto[x, y, z] == ABC.Null && a != ABC.Let) {
-                                    Auto[x, y, z] = a;
-                                    if (direction)
-                                        Auto[x, y + 1, z] = ABC.Null;
-                                    else
-                                        Auto[x + 1, y, z] = ABC.Null;
-                                }
-
-
-                                if (Auto[x, y + 1, z] == ABC.Null && b != ABC.Let)
-                                {
-                                    Auto[x, y + 1, z] = b;
-                                    if (direction)
-                                        Auto[x + 1, y + 1, z] = ABC.Null;
-                                    else
-                                        Auto[x, y, z] = ABC.Null;
-                                }
-
-                                if (Auto[x + 1, y + 1, z] == ABC.Null && c != ABC.Let)
-                                {
-                                    Auto[x + 1, y + 1, z] = c;
-                                    if (direction)
-                                        Auto[x + 1, y + 1, z] = ABC.Null;
-                                    else
-                                        Auto[x, y + 1, z] = ABC.Null;
-                                }
-
-
-
-                            }
-
-                            if (e != ABC.Let && f != ABC.Let && g != ABC.Let && h != ABC.Let)
-                            {
-                                Auto[x, y, z + 1] = e;
-                                Auto[x, y + 1, z + 1] = f;
-                                Auto[x + 1, y + 1, z + 1] = g;
-                                Auto[x + 1, y, z + 1] = h;
-                            }
-                            else
-                            {
-                                if (Auto[x, y, z + 1] == ABC.Null && e != ABC.Let)
-                                {
-                                    Auto[x, y, z + 1] = e;
-                                    if (direction)
-                                        Auto[x, y + 1, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x + 1, y, z + 1] = ABC.Null;
-                                }
-
-                                if (Auto[x, y + 1, z + 1] == ABC.Null && f != ABC.Let)
-                                {
-                                    Auto[x, y + 1, z + 1] = f;
-                                    if (direction)
-                                        Auto[x + 1, y + 1, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x, y, z + 1] = ABC.Null;
-                                }
-
-                                if (Auto[x + 1, y + 1, z + 1] == ABC.Null && g != ABC.Let)
-                                {
-                                    Auto[x + 1, y + 1, z + 1] = g;
-                                    if (direction)
-                                        Auto[x + 1, y, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x, y + 1, z + 1] = ABC.Null;
-                                }
-
-                                if (Auto[x + 1, y, z + 1] == ABC.Null && h != ABC.Let)
-                                {
-                                    Auto[x + 1, y, z + 1] = h;
-                                    if (direction)
-                                        Auto[x, y, z + 1] = ABC.Null;
-                                    else
-                                        Auto[x + 1, y + 1, z + 1] = ABC.Null;
-                                }
-
-                            }
-
-
+                            Auto[x, y, z] = a;
+                            Auto[x, y + 1, z] = b;
+                            Auto[x + 1, y + 1, z] = c;
+                            Auto[x + 1, y, z] = d;
+                            Auto[x, y, z + 1] = e;
+                            Auto[x, y + 1, z + 1] = f;
+                            Auto[x + 1, y + 1, z + 1] = g;
+                            Auto[x + 1, y, z + 1] = h;
                         }
 
                     }
@@ -1411,23 +1002,19 @@ namespace  CA
 
             //Обнуляем
             for (int x = 0; x < Length; x++)
-            { 
+            {
                 //По Z
                 for (int y = 0; y < Length; y++)
                 {
-                    if(Auto[x, y, 0] == ABC.Pollution)
-                        Auto[x, y, 0] = ABC.Null;
-                    if (Auto[x, y, Length - 1] == ABC.Pollution)
-                        Auto[x, y, Length - 1] = ABC.Null;
+                    Auto[x, y, 0] = false;
+                    Auto[x, y, Length - 1] = false;
                 }
 
                 //По Y
                 for (int z = 0; z < Length; z++)
                 {
-                    if (Auto[x, 0, z] == ABC.Pollution)
-                        Auto[x, 0, z] = ABC.Null;
-                    if (Auto[x, Length - 1, z] == ABC.Pollution)
-                        Auto[x, Length - 1, z] = ABC.Null;
+                    Auto[x, 0, z] = false;
+                    Auto[x, Length - 1, z] = false;
                 }
 
             }
@@ -1437,10 +1024,8 @@ namespace  CA
             {
                 for (int z = 0; z < Length; z++)
                 {
-                    if (Auto[0, y, z] == ABC.Pollution)
-                        Auto[0, y, z] = ABC.Null;
-                    if (Auto[Length - 1, y, z] == ABC.Pollution)
-                        Auto[Length - 1, y, z] = ABC.Null;
+                    Auto[0, y, z] = false;
+                    Auto[Length - 1, y, z] = false;
                 }
             }
 
@@ -1456,7 +1041,7 @@ namespace  CA
                         int i = Math.Cos(Angel) > 0 ? _length - 1 - x : x;
                         int j = Math.Sin(Angel) > 0 ? _length - 1 - z : z;
 
-                        if (Auto[i, y, j] == ABC.Pollution)
+                        if (Auto[i, y, j])
                         {
 
                             double rand = _randomWind.NextDouble();
@@ -1479,7 +1064,7 @@ namespace  CA
         private void WindStep(int i, int j, int y, int wind,out int inew,out int jnew) {
             inew = i;
             jnew = j;
-            Auto[inew, y, jnew] = ABC.Null;
+            Auto[inew, y, jnew] = false;
             bool stop = false;
 
             for (int k = 1; k < wind; k++)
@@ -1496,7 +1081,7 @@ namespace  CA
                     break;
                 }
 
-                if (Auto[i1, y, j1] == ABC.Pollution)
+                if (Auto[i1, y, j1])
                 {
                    
                     int newWind = (int)((double)(wind - k) / 2 + 0.5);
@@ -1505,21 +1090,21 @@ namespace  CA
                         WindStep(i1, j1, y, newWind, out int inew2, out int jnew2);
                         if ((i1 == inew2 )&& (j1 == jnew2))
                         {
-                            Auto[inew, y, jnew] = ABC.Pollution;
+                            Auto[inew, y, jnew] = true;
                             stop = true;
                             break;
                         }
                         else {
                             inew = i1;
                             jnew = j1;
-                            Auto[inew, y, jnew] = ABC.Pollution;
+                            Auto[inew, y, jnew] = true;
                             stop = true;
                             break;
                         }
                     }
                     else
                     {
-                        Auto[inew, y, jnew] = ABC.Pollution;
+                        Auto[inew, y, jnew] = true;
                         stop = true;
                         break;
                     }
@@ -1532,33 +1117,13 @@ namespace  CA
             }
 
             if (!stop) {
-                Auto[inew, y, jnew] = ABC.Pollution;
+                Auto[inew, y, jnew] = true;
             }
         }
 
-        #endregion
-
-        #region GetPoint
-
-        public ABC GetPoint(Axis axis, int selectIndex, int index1, int index2) {
-
-            switch (axis) {
-
-                default:
-                case Axis.Ox:
-                    return Auto[selectIndex, index1, index2];
-                case Axis.Oy:
-                    return Auto[index1, selectIndex, index2];
-                case Axis.Oz:
-                    return Auto[index1, index2, selectIndex];
-
-            }
-
+        public void Remove() {
+            Length = _length;
         }
-
-        #endregion
-
-        #region GettingPollution
 
         public double[,] GetPollution(int index, Axis axis) {
             return GetPollution(index, axis, _selectThreadDispatcher);
@@ -1683,7 +1248,7 @@ namespace  CA
                                     for (; zStart <= zEnd; zStart++)
                                     {
 
-                                        if (Auto[xIndex, yStart, zStart] == ABC.Pollution) { sum++; }
+                                        if (Auto[xIndex, yStart, zStart]) { sum++; }
 
                                     }
 
@@ -1726,7 +1291,7 @@ namespace  CA
                                     for (; zStart1 <= zEnd1; zStart1++)
                                     {
 
-                                        if (Auto[xStart1, yIndex, zStart1] == ABC.Pollution) { sum++; }
+                                        if (Auto[xStart1, yIndex, zStart1]) { sum++; }
 
                                     }
 
@@ -1769,7 +1334,7 @@ namespace  CA
                                     for (; yStart2 <= yEnd2; yStart2++)
                                     {
 
-                                        if (Auto[xStart2, yStart2, zIndex] == ABC.Pollution) { sum++; }
+                                        if (Auto[xStart2, yStart2, zIndex]) { sum++; }
 
                                     }
 
@@ -1790,28 +1355,48 @@ namespace  CA
 
         }
 
-        #endregion
+        public bool GetPointPollution(Axis axis, int selectIndex, int index1, int index2) {
 
-        #region Resets
+            switch (axis) {
 
-        public void Remove() {
-            Length = _length;
+                default:
+                case Axis.Ox:
+                    return Auto[selectIndex, index1, index2];
+                case Axis.Oy:
+                    return Auto[index1, selectIndex, index2];
+                case Axis.Oz:
+                    return Auto[index1, index2, selectIndex];
+
+            }
+
         }
 
         public void Reset() {
-            Auto = new ABC[_length, _length, _length];
+            Auto = new bool[_length, _length, _length];
             Iterator = 0;
             foreach (var pollution in _pollutions)
             {
-                if(pollution.StartPollutin)
-                    AddPollution(pollution);
-            }
-            foreach (var let in _lets)
-            {
-                AddLet(let);
+                Add(pollution.xStart, pollution.xEnd, pollution.yStart, pollution.yEnd, pollution.zStart, pollution.zEnd);
             }
         }
 
-        #endregion
+        [Serializable]
+        private struct PollutionRayParam{
+            public int index;
+            public Axis axis;
+            public int Start;
+            public int End;
+            public double[,] res;
+        }
+
+        [Serializable]
+        private struct Pollution {
+            public int xStart;
+            public int xEnd;
+            public int yStart;
+            public int yEnd;
+            public int zStart;
+            public int zEnd;
+        }
     }
 }

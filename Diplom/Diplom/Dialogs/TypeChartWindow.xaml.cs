@@ -47,24 +47,9 @@ namespace Diplom
             }
         }
 
-        private byte _selectLetAlpha = 255;
+        private CA_Model.Axis _selectAxis = CA_Model.Axis.Ox;
 
-        public byte SelectLetAlpha
-        {
-            set
-            {
-                _selectLetAlpha = value;
-                AlphaLetTextBox.Text = _selectLetAlpha.ToString();
-            }
-            get
-            {
-                return _selectLetAlpha;
-            }
-        }
-
-        private Axis _selectAxis = Axis.Ox;
-
-        public Axis SelectAxis {
+        public CA_Model.Axis SelectAxis {
             set {
                 _selectAxis = value;
                 AxisMeshComboBox.SelectedIndex = (int)_selectAxis;
@@ -111,22 +96,6 @@ namespace Diplom
             }
         }
 
-        private Color _selectLetColor = Color.FromRgb(255, 255, 255);
-
-        public Color SelectLetColor
-        {
-            set
-            {
-                _selectLetColor = value;
-
-                ColorLetButton.Background = new SolidColorBrush(_selectLetColor);
-            }
-            get
-            {
-                return _selectLetColor;
-            }
-        }
-
         private int _selectPoint2D = 0;
 
         public int SelectPoint2D {
@@ -139,20 +108,20 @@ namespace Diplom
             }
         }
 
-        private Chart _selectChart = 0;
+        private MainWindow.Chart _selectChart = 0;
 
-        public Chart SelectChart {
+        public MainWindow.Chart SelectChart {
             set {
                 _selectChart = value;
                 switch (value) {
                     default:
-                    case Chart.PointChart3D:
+                    case MainWindow.Chart.PointChart3D:
                         Point3DRadio.IsChecked = true;
                         break;
-                    case Chart.MeshChart:
+                    case MainWindow.Chart.MeshChart:
                         MeshRadio.IsChecked = true;
                         break;
-                    case Chart.PointChart2D:
+                    case MainWindow.Chart.PointChart2D:
                         Point2DRadio.IsChecked = true;
                         break;
                         
@@ -177,20 +146,11 @@ namespace Diplom
                 l5.Style = (Style)FindResource("LabelDark");
                 l6.Style = (Style)FindResource("LabelDark");
                 l7.Style = (Style)FindResource("LabelDark");
-                l8.Style = (Style)FindResource("LabelDark");
-                l9.Style = (Style)FindResource("LabelDark");
-                l10.Style = (Style)FindResource("LabelDark");
-                l11.Style = (Style)FindResource("LabelDark");
 
                 s1.Style = (Style)FindResource("SeparatorDarkStyle");
                 s2.Style = (Style)FindResource("SeparatorDarkStyle");
-                s3.Style = (Style)FindResource("SeparatorDarkStyle");
-                s4.Style = (Style)FindResource("SeparatorDarkStyle");
-                s5.Style = (Style)FindResource("SeparatorDarkStyle");
-
 
                 SizeTextBox.Style = (Style)FindResource("TextBoxDarkStyle");
-                AlphaLetTextBox.Style = (Style)FindResource("TextBoxDarkStyle");
                 AlphaTextBox.Style = (Style)FindResource("TextBoxDarkStyle");
                 IndexTextBox.Style = (Style)FindResource("TextBoxDarkStyle");
                 
@@ -205,7 +165,6 @@ namespace Diplom
                 CancelButton.Style = (Style)FindResource("ButtonDarkStyle");
                 SaveButton.Style = (Style)FindResource("ButtonDarkStyle");
                 ColorButton.Style = (Style)FindResource("ButtonDarkStyle");
-                ColorLetButton.Style = (Style)FindResource("ButtonDarkStyle");
 
                 grid1.Background = new SolidColorBrush(Color.FromArgb(255, 28, 28, 30));
 
@@ -219,20 +178,12 @@ namespace Diplom
                 l5.Style = (Style)FindResource("LabelLight");
                 l6.Style = (Style)FindResource("LabelLight");
                 l7.Style = (Style)FindResource("LabelLight");
-                l8.Style = (Style)FindResource("LabelLight");
-                l9.Style = (Style)FindResource("LabelLight");
-                l10.Style = (Style)FindResource("LabelLight");
-                l11.Style = (Style)FindResource("LabelLight");
 
                 s1.Style = (Style)FindResource("SeparatorLightStyle");
                 s2.Style = (Style)FindResource("SeparatorLightStyle");
-                s3.Style = (Style)FindResource("SeparatorLightStyle");
-                s4.Style = (Style)FindResource("SeparatorLightStyle");
-                s5.Style = (Style)FindResource("SeparatorLightStyle");
 
                 SizeTextBox.Style = (Style)FindResource("TextBoxLightStyle");
                 AlphaTextBox.Style = (Style)FindResource("TextBoxLightStyle");
-                AlphaLetTextBox.Style = (Style)FindResource("TextBoxLightStyle");
                 IndexTextBox.Style = (Style)FindResource("TextBoxLightStyle");
 
                 PointTypeComboBox.Style = (Style)FindResource("ComboBoxLightStyle");
@@ -254,10 +205,9 @@ namespace Diplom
             Point3DRadio.Checked += Point3DRadio_Checked;
             Point2DRadio.Checked += Point2DRadio_Checked;
 
-            AlphaTextBox.TextChanged += TextBox_TextChanged;
-            AlphaLetTextBox.TextChanged += TextBox_TextChanged;
-            SizeTextBox.TextChanged += TextBox_TextChanged;
-            IndexTextBox.TextChanged += TextBox_TextChanged;
+            AlphaTextBox.TextChanged += Box_TextChanged;
+            SizeTextBox.TextChanged += Box_TextChanged;
+            IndexTextBox.TextChanged += Box_TextChanged;
 
             AxisMeshComboBox.SelectionChanged += ComboBox_SelectionChanged;
             PointTypeComboBox.SelectionChanged += ComboBox_SelectionChanged;
@@ -268,20 +218,20 @@ namespace Diplom
 
 
         private void Lock() {
-            SaveButton.IsEnabled = ((byte.TryParse(AlphaTextBox.Text, out byte selectAlpha)) && (byte.TryParse(AlphaLetTextBox.Text, out byte selectLetAlpha)) && (int.TryParse(SizeTextBox.Text, out int selectSize))
-                && (int.TryParse(IndexTextBox.Text, out int selectIndex)) && (selectAlpha >= 0) && (selectAlpha <= 255) && (selectLetAlpha >= 0) && (selectLetAlpha <= 255)
-                && (selectSize > 0) && (selectSize < 6) && (selectIndex >= 0) && (selectIndex < Length));
+            SaveButton.IsEnabled = ((byte.TryParse(AlphaTextBox.Text, out byte selectAlpha) && (int.TryParse(SizeTextBox.Text, out int selectSize))
+                && (int.TryParse(IndexTextBox.Text, out int selectIndex))) && ((selectAlpha >= 0) && (selectAlpha <= 255) && (selectSize > 0) && (selectSize < 6)
+                && (selectIndex >= 0) && (selectIndex < Length)));
         }
 
         
         private void Point3DRadio_Checked(object sender, RoutedEventArgs e)
         {
-            _selectChart = Chart.PointChart3D;
+            _selectChart = MainWindow.Chart.PointChart3D;
         }
 
         private void MeshRadio_Checked(object sender, RoutedEventArgs e)
         {
-            _selectChart = Chart.MeshChart;
+            _selectChart = MainWindow.Chart.MeshChart;
         }
 
         private void ColorButton_Click(object sender, RoutedEventArgs e)
@@ -296,7 +246,7 @@ namespace Diplom
             }
         }
 
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void Box_TextChanged(object sender, TextChangedEventArgs e)
         {
             Lock();
         }
@@ -316,12 +266,11 @@ namespace Diplom
         {
             DialogResult = true;
             _selectAlpha = byte.Parse(AlphaTextBox.Text);
-            _selectLetAlpha = byte.Parse(AlphaLetTextBox.Text);
             _selectSize = int.Parse(SizeTextBox.Text);
             _selectIndex = int.Parse(IndexTextBox.Text);
 
             _selectPoint = PointTypeComboBox.SelectedIndex;
-            _selectAxis = (Axis)AxisMeshComboBox.SelectedIndex;
+            _selectAxis = (CA_Model.Axis)AxisMeshComboBox.SelectedIndex;
             _selectPoint2D = Point2DComboBox.SelectedIndex;
           
             Close();
@@ -331,20 +280,7 @@ namespace Diplom
 
         private void Point2DRadio_Checked(object sender, RoutedEventArgs e)
         {
-            _selectChart = Chart.PointChart2D;
-        }
-
-        private void ColorLetButton_Click(object sender, RoutedEventArgs e)
-        {
-            System.Windows.Forms.ColorDialog colorDialog = new System.Windows.Forms.ColorDialog();
-            colorDialog.Color = System.Drawing.Color.FromArgb(_selectLetColor.R, _selectLetColor.G, _selectLetColor.B);
-
-            if (colorDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-
-                _selectLetColor = Color.FromRgb(colorDialog.Color.R, colorDialog.Color.G, colorDialog.Color.B);
-                ColorLetButton.Background = new SolidColorBrush(_selectLetColor);
-            }
+            _selectChart = MainWindow.Chart.PointChart2D;
         }
     }
 }

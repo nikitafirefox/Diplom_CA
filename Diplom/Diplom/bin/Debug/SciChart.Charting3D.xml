@@ -6939,12 +6939,6 @@
             <param name="ny">The normal y coord.</param>
             <param name="nz">The normal z coord.</param>
         </member>
-        <member name="M:SciChart.Charting3D.Primitives.IImmediateLitMeshContext.SetSelectionId(System.UInt64)">
-            <summary>
-            Sets the selection identifier for the current vertex
-            </summary>
-            <param name="selectionId">The selection identifier.</param>
-        </member>
         <member name="T:SciChart.Charting3D.Primitives.ImmediateLitMeshContext">
             <summary>
             Defines a Drawing Context which draws 3D Meshes dynamically on the fly
@@ -6996,12 +6990,6 @@
             <param name="nx">The normal x coord.</param>
             <param name="ny">The normal y coord.</param>
             <param name="nz">The normal z coord.</param>
-        </member>
-        <member name="M:SciChart.Charting3D.Primitives.ImmediateLitMeshContext.SetSelectionId(System.UInt64)">
-            <summary>
-            Sets the selection identifier for the current vertex
-            </summary>
-            <param name="selectionId">The selection identifier.</param>
         </member>
         <member name="T:SciChart.Charting3D.Primitives.TSRRenderMode">
             <summary>
@@ -7133,11 +7121,6 @@
             <param name="color">The constant line color as ARGB.</param>
             <param name="pointCount">The point count.</param>
             <param name="hasTransparentColors">if set to true, then one or more vertex has semi-transparent colours. This determines whether alpha blending is used.</param>
-        </member>
-        <member name="M:SciChart.Charting3D.Primitives.ILinesMesh.SetTexture(SciChart.Charting3D.Interop.TSRTexture)">
-            <summary>
-            Sets texture.
-            </summary>
         </member>
         <member name="T:SciChart.Charting3D.Primitives.LinesMesh">
             <summary>
@@ -9794,16 +9777,6 @@
             Defines the ZColorMapping DependencyProperty.
             </summary>
         </member>
-        <member name="F:SciChart.Charting3D.RenderableSeries.WaterfallRenderableSeries3D.YStrokeColorMappingProperty">
-            <summary>
-            Defines the YStrokeColorMapping DependencyProperty.
-            </summary>
-        </member>
-        <member name="F:SciChart.Charting3D.RenderableSeries.WaterfallRenderableSeries3D.ZStrokeColorMappingProperty">
-            <summary>
-            Defines the YStrokeColorMapping DependencyProperty.
-            </summary>
-        </member>
         <member name="F:SciChart.Charting3D.RenderableSeries.WaterfallRenderableSeries3D.ClipModeProperty">
             <summary>
             Defines the ClipMode DependencyProperty.
@@ -9824,16 +9797,6 @@
             <summary>
             Gets or sets the <see cref="T:SciChart.Charting3D.RenderableSeries.BrushColorPalette"/> for filling slices of a waterfall chart.
             The slices will be painted along Z axis.
-            </summary>
-        </member>
-        <member name="P:SciChart.Charting3D.RenderableSeries.WaterfallRenderableSeries3D.YStrokeColorMapping">
-            <summary>
-            Gets or sets the <see cref="T:SciChart.Charting3D.RenderableSeries.BrushColorPalette"/> for filling Y stroke of a waterfall chart.
-            </summary>
-        </member>
-        <member name="P:SciChart.Charting3D.RenderableSeries.WaterfallRenderableSeries3D.ZStrokeColorMapping">
-            <summary>
-            Gets or sets the <see cref="T:SciChart.Charting3D.RenderableSeries.BrushColorPalette"/> for filling Z stroke of a waterfall chart.
             </summary>
         </member>
         <member name="P:SciChart.Charting3D.RenderableSeries.WaterfallRenderableSeries3D.SelectedColorMapping">
